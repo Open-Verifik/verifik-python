@@ -1,0 +1,18 @@
+import httpx
+
+from app.core.config import get_settings
+
+AFILIACIONES_PATH = "/v2/co/afiliaciones"
+SMART_BATCH_FROM_QUEUE_PATH = "/v2/smart-batches/from-queue"
+SMART_BATCH_QUEUE_NEXT_PATH = "/v2/smart-batches/queue/next"
+
+
+def get_verifik_client() -> httpx.Client:
+    settings = get_settings()
+
+    return httpx.Client(
+        base_url=settings.verifik_api_url.rstrip("/"),
+        timeout=settings.verifik_timeout_seconds,
+        verify=settings.should_verify_ssl,
+        follow_redirects=True,
+    )
