@@ -1,0 +1,4985 @@
+[
+  {
+    "code": "document-liveness",
+    "name": "Document Liveness Detection",
+    "url": "/document-liveness",
+    "method": "GET",
+    "country": "world",
+    "dependencies": []
+  },
+  {
+    "code": "argentina_api_buenos_aires_technical_inspection",
+    "name": "Argentina - Buenos Aires Technical Inspection",
+    "url": "/v2/ar/buenos-aires/technical-inspection",
+    "method": "GET",
+    "country": "Argentina",
+    "dependencies": [
+      {
+        "field": "plate",
+        "type": "String",
+        "required": true,
+        "description": "Vehicle license plate to query, without spaces or punctuation."
+      }
+    ]
+  },
+  {
+    "code": "argentina_api_buenos_aires_traffic_infractions",
+    "name": "Argentina - Buenos Aires Traffic Infractions",
+    "url": "/v2/ar/buenos-aires/traffic-infractions",
+    "method": "GET",
+    "country": "Argentina",
+    "dependencies": [
+      {
+        "field": "plate",
+        "type": "String",
+        "required": true,
+        "description": "Vehicle license plate to query, without spaces or punctuation."
+      }
+    ]
+  },
+  {
+    "code": "argentina_api_identity_lookup",
+    "name": "Argentina - Argentine Citizen",
+    "url": "/v2/ar/cedula",
+    "method": "GET",
+    "country": "Argentina",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "DNIAR"
+        ],
+        "min": "",
+        "max": ""
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true,
+        "min": "",
+        "max": ""
+      }
+    ]
+  },
+  {
+    "code": "argentina_api_medical_professional",
+    "name": "Argentina - Medical Professional",
+    "url": "/v2/ar/cedula/medico-profesional",
+    "method": "GET",
+    "country": "Argentina",
+    "dependencies": [
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "argentina_api_company_lookup",
+    "name": "Argentina - Argentine Business Verification",
+    "url": "/v2/ar/company",
+    "method": "GET",
+    "country": "Argentina",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CUIT"
+        ],
+        "min": "",
+        "max": ""
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true,
+        "min": "",
+        "max": ""
+      }
+    ]
+  },
+  {
+    "code": "ar_certificate_verify",
+    "name": "Argentina - Criminal Record Certificate",
+    "url": "/v2/ar/dnrec/antecedentes",
+    "method": "GET",
+    "country": "Argentina",
+    "dependencies": [
+      {
+        "field": "requestCode",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "securityCode",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "argentina_api_rto",
+    "name": "Argentina - RTO",
+    "url": "/v2/ar/rto",
+    "method": "GET",
+    "country": "Argentina",
+    "dependencies": [
+      {
+        "field": "plate",
+        "type": "String",
+        "required": true,
+        "description": "Vehicle license plate to query, without spaces or punctuation."
+      }
+    ]
+  },
+  {
+    "code": "argentina_api_vehicle",
+    "name": "Argentina - Argentina",
+    "url": "/v2/ar/vehicle",
+    "method": "GET",
+    "country": "Argentina",
+    "dependencies": [
+      {
+        "field": "plate",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "api_autodata_enginer",
+    "name": "Vehicle Engine Database",
+    "url": "/v2/autodata/enginer",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": []
+  },
+  {
+    "code": "api_autodata_enginer_code",
+    "name": "Vehicle Engine Code Lookup",
+    "url": "/v2/autodata/enginer-code",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": []
+  },
+  {
+    "code": "api_autodata_manufacturers",
+    "name": "Vehicle Manufacturers Database",
+    "url": "/v2/autodata/manufacturers",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": []
+  },
+  {
+    "code": "bolivia_api_identity_lookup",
+    "name": "Bolivia - Bolivian Citizen",
+    "url": "/v2/bo/cedula",
+    "method": "GET",
+    "country": "Bolivia",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CI"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "dateOfBirth",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "bolivia_api_business_lookup",
+    "name": "Bolivia - Bolivian Business Verification",
+    "url": "/v2/bo/company",
+    "method": "GET",
+    "country": "Bolivia",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "NIT"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "bolivia_api_vehicle",
+    "name": "Bolivia - Vehicle Information",
+    "url": "/v2/bo/vehicle",
+    "method": "GET",
+    "country": "Bolivia",
+    "dependencies": [
+      {
+        "field": "plate",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "bolivia_api_vehicle_soat",
+    "name": "Bolivia - Vehicle SOAT",
+    "url": "/v2/bo/vehicle-soat",
+    "method": "GET",
+    "country": "Bolivia",
+    "dependencies": [
+      {
+        "field": "plate",
+        "type": "String",
+        "required": true,
+        "description": "Vehicle license plate to consult, without spaces or special characters."
+      },
+      {
+        "field": "force",
+        "type": "String",
+        "required": false,
+        "enum": [
+          "true",
+          "false"
+        ],
+        "description": "When true, bypasses cached records and fetches fresh data from the source."
+      }
+    ]
+  },
+  {
+    "code": "bolivia_api_voting_location",
+    "name": "Bolivia - Voting Location",
+    "url": "/v2/bo/votacion",
+    "method": "GET",
+    "country": "Bolivia",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CI"
+        ],
+        "description": "Document type. Allowed value: CI."
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true,
+        "description": "Bolivian identity document number without expedition code."
+      },
+      {
+        "field": "dateOfBirth",
+        "type": "String",
+        "required": true,
+        "description": "Date of birth in DD/MM/YYYY format."
+      },
+      {
+        "field": "force",
+        "type": "String",
+        "required": false,
+        "enum": [
+          "true",
+          "false"
+        ],
+        "description": "When true, bypasses cached records and fetches fresh data from the source."
+      }
+    ]
+  },
+  {
+    "code": "brasil_api_criminal_history",
+    "name": "Brazil - Background Check (CPF)",
+    "url": "/v2/br/background-check",
+    "method": "GET",
+    "country": "Brazil",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CPF"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "dateOfBirth",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "brasil_api_identity_lookup",
+    "name": "Brazil - Brazilian Citizen",
+    "url": "/v2/br/cedula",
+    "method": "GET",
+    "country": "Brazil",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CPF"
+        ],
+        "min": "",
+        "max": ""
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true,
+        "min": "",
+        "max": ""
+      },
+      {
+        "field": "dateOfBirth",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "brasil_api_company_lookup",
+    "name": "Brazil - Business Verification (CNPJ)",
+    "url": "/v2/br/company",
+    "method": "GET",
+    "country": "Brazil",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CNPJ"
+        ],
+        "min": "",
+        "max": ""
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true,
+        "min": "",
+        "max": ""
+      }
+    ]
+  },
+  {
+    "code": "brasil_api_vehicle",
+    "name": "Brazil - Vehicle Information",
+    "url": "/v2/br/vehicle",
+    "method": "GET",
+    "country": "Brazil",
+    "dependencies": [
+      {
+        "field": "plate",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "api_data_sheet_vehicle_by-plate_br",
+    "name": " - Vehicle Verification",
+    "url": "/v2/br/vehicle/data-sheet-by-plate",
+    "method": "GET",
+    "country": "Brazil",
+    "dependencies": []
+  },
+  {
+    "code": "canada_api_driver_license_alberta",
+    "name": "Canada - Driver License",
+    "url": "/v2/ca/alberta/driver-license",
+    "method": "GET",
+    "country": "Canada",
+    "dependencies": [
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "acnNo",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "canada_api_driver_license_british-columbia",
+    "name": "Canada - British Columbia Driver License",
+    "url": "/v2/ca/british-columbia/driver-license",
+    "method": "GET",
+    "country": "Canada",
+    "dependencies": [
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "lastName",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "canada_api_company",
+    "name": "Canada - Canadian Business Verification",
+    "url": "/v2/ca/company",
+    "method": "GET",
+    "country": "Canada",
+    "dependencies": [
+      {
+        "field": "province",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "AB",
+          "BC",
+          "MB",
+          "NS",
+          "ON",
+          "QC",
+          "SK"
+        ]
+      },
+      {
+        "field": "business",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "canada_api_driver_license_ontario",
+    "name": "Canada - Ontario Driver License",
+    "url": "/v2/ca/ontario/driver-license",
+    "method": "GET",
+    "country": "Canada",
+    "dependencies": [
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "canada_api_ontario_plate",
+    "name": "Canada - Ontario Plate Expiry",
+    "url": "/v2/ca/ontario/plate",
+    "method": "GET",
+    "country": "Canada",
+    "dependencies": [
+      {
+        "field": "plate",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "permitNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "canada_api_driver_license_quebec",
+    "name": "Canada - Quebec Driver License",
+    "url": "/v2/ca/quebec/driver-license",
+    "method": "GET",
+    "country": "Canada",
+    "dependencies": [
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "chile_api_identity_lookup",
+    "name": "Chile - Chilean Citizen",
+    "url": "/v2/cl/cedula",
+    "method": "GET",
+    "country": "Chile",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "RUN"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "chile_api_business_lookup",
+    "name": "Chile - Business Validation",
+    "url": "/v2/cl/company",
+    "method": "GET",
+    "country": "Chile",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "RUT"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "chile_api_driver_license",
+    "name": "Chile - Driver License",
+    "url": "/v2/cl/driver-license",
+    "method": "GET",
+    "country": "Chile",
+    "dependencies": [
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "cl_certificate_verify",
+    "name": "Chile - Civil Registry Certificate",
+    "url": "/v2/cl/registro-civil/certificado",
+    "method": "GET",
+    "country": "Chile",
+    "dependencies": [
+      {
+        "field": "folio",
+        "type": "String",
+        "required": true,
+        "min": 10,
+        "max": 15
+      },
+      {
+        "field": "verificationCode",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "chile_api_taxpayer_lookup",
+    "name": "Chile — Taxpayer (RUT) lookup",
+    "url": "/v2/cl/taxpayer",
+    "method": "GET",
+    "country": "Chile",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "RUT"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "chile_api_transport_vehicle",
+    "name": "Chile - Public Transport Vehicle",
+    "url": "/v2/cl/transport-vehicle",
+    "method": "GET",
+    "country": "Chile",
+    "dependencies": [
+      {
+        "field": "plate",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "chile_api_validate",
+    "name": "Chile — Identity document validation",
+    "url": "/v2/cl/validate/documents",
+    "method": "GET",
+    "country": "Chile",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "RUT",
+          "RUN"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "serialNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "chile_api_vehicle",
+    "name": "Chile - Vehicle Information",
+    "url": "/v2/cl/vehicle",
+    "method": "GET",
+    "country": "Chile",
+    "dependencies": [
+      {
+        "field": "plate",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "chile_api_vehicle_soap",
+    "name": "Chile - Vehicle SOAP",
+    "url": "/v2/cl/vehicle-soap",
+    "method": "GET",
+    "country": "Chile",
+    "dependencies": [
+      {
+        "field": "plate",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "policyNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "chile_api_vehicle_soap_plate",
+    "name": "Chile - Vehicle SOAP (by plate)",
+    "url": "/v2/cl/vehicle-soap-plate",
+    "method": "GET",
+    "country": "Chile",
+    "dependencies": [
+      {
+        "field": "plate",
+        "type": "String",
+        "required": true,
+        "description": "Chilean license plate (Patente), 4–6 alphanumeric characters."
+      },
+      {
+        "field": "force",
+        "type": "String",
+        "required": false,
+        "enum": [
+          "true",
+          "false"
+        ],
+        "description": "When true, bypasses cached records and fetches fresh data from the source."
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_adres",
+    "name": "Colombia — ADRES affiliation",
+    "url": "/v2/co/adres",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CC",
+          "CE",
+          "PA",
+          "PE",
+          "PEP",
+          "PPT"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "co_bogota_taxi_driver_card",
+    "name": "Colombia - Bogotá Taxi Driver by Card",
+    "url": "/v2/co/bogota/taxi-drivers/card",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "card",
+        "type": "String",
+        "required": true,
+        "min": 5,
+        "max": 15,
+        "description": "Taxi driver card/license number (e.g., 2991233)"
+      }
+    ]
+  },
+  {
+    "code": "co_bogota_taxi_plate",
+    "name": "Colombia - Bogotá Taxi Driver Information by Plate",
+    "url": "/v2/co/bogota/taxi-drivers/plate",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "plate",
+        "type": "String",
+        "required": true,
+        "min": 6,
+        "max": 6,
+        "description": "Taxi plate number (e.g., WMN482)"
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_vehicle_accidentality_bogota",
+    "name": "Colombia - Vehicle Accidentality",
+    "url": "/v2/co/bogota/vehicle/accidentality",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "plate",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_vehicle_fines_bogota",
+    "name": "Colombia - Vehicle Fines Check",
+    "url": "/v2/co/bogota/vehicle/fines",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "plate",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_vehicle_tax",
+    "name": "Colombia - Taxes in Bogotá",
+    "url": "/v2/co/bogota/vehicle/tax",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CC",
+          "NIT"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "plate",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_identity_lookup_by_name",
+    "name": "Colombia - Citizen Lookup by Name (SCCRC)",
+    "url": "/v2/co/cedula/by-name",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "primerNombre",
+        "type": "String",
+        "required": true,
+        "description": "First given name"
+      },
+      {
+        "field": "primerApellido",
+        "type": "String",
+        "required": true,
+        "description": "First surname"
+      },
+      {
+        "field": "sexo",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "MASCULINO",
+          "FEMENINO",
+          "M",
+          "F"
+        ],
+        "description": "Sex as registered (MASCULINO or FEMENINO)"
+      },
+      {
+        "field": "fecha",
+        "type": "String",
+        "required": true,
+        "description": "Date of birth in DD/MM/YYYY"
+      },
+      {
+        "field": "segundoNombre",
+        "type": "String",
+        "required": false,
+        "description": "Second given name"
+      },
+      {
+        "field": "segundoApellido",
+        "type": "String",
+        "required": false,
+        "description": "Second surname"
+      }
+    ]
+  },
+  {
+    "code": "colombia_special_api_identity_lookup",
+    "name": "Colombia - Private Citizen Information",
+    "url": "/v2/co/cedula/completo",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CC"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_identity_lookup_extra",
+    "name": "Colombia — National ID with extra data (CC)",
+    "url": "/v2/co/cedula/extra",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CC"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "date",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_identity_lookup_premium",
+    "name": "Colombia — National ID premium lookup (CC)",
+    "url": "/v2/co/cedula/premium",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_identity_lookup_registraduria",
+    "name": "Colombia - Citizen Lookup via Registraduría (SCCRC)",
+    "url": "/v2/co/cedula/registraduria",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CC"
+        ],
+        "description": "Document type (CC only)"
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true,
+        "description": "Colombian cédula number"
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_rethus",
+    "name": "Professional Healthcare Physicians Verification",
+    "url": "/v2/co/cedula/rethus",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CC"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "validate-document",
+    "name": "validate-document",
+    "url": "/v2/co/cedula/validate",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "anverso",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "reverso",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_dian",
+    "name": "Colombia - Colombia DIAN Verification",
+    "url": "/v2/co/company/dian",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "NIT"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_dian_invoicer",
+    "name": "Colombia - Colombia Legal Invoicer Verification",
+    "url": "/v2/co/company/dian/invoicer",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "NIT"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "api_colombia_contracts",
+    "name": "Colombia - Public Contracts",
+    "url": "/v2/co/contracts",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "NIT",
+          "CC",
+          "CE",
+          "PA",
+          "RC",
+          "TI",
+          "PEP",
+          "CCVE",
+          "CURP",
+          "DNI",
+          "CCEC"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_contraloria_certificate",
+    "name": "Colombia - Contraloría Certificate",
+    "url": "/v2/co/contraloria/certificado",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CC",
+          "CE",
+          "TI",
+          "PA",
+          "PEP"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_delinquent_debtors",
+    "name": "Colombia — Delinquent debtors (BDME)",
+    "url": "/v2/co/deudoresmorosos",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CC",
+          "NIT",
+          "CE"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_vehicle_sinister_fasecolda_by_plate",
+    "name": "Colombia - Claims Verification",
+    "url": "/v2/co/fasecolda/sinister",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "plate",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_vehicle_valores_fasecolda_by_code",
+    "name": "Colombia - Vehicle Values by Code",
+    "url": "/v2/co/fasecolda/values-by-code",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "codeFasecolda",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_vehicle_valores_fasecolda_by_plate",
+    "name": "Colombia - Vehicle Values by Plate",
+    "url": "/v2/co/fasecolda/values-by-plate",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "plate",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_identity_ce_foreigner_id",
+    "name": "Colombia — CE (Cédula de Extranjería)",
+    "url": "/v2/co/foreigner-id/ce",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "expeditionDate",
+        "type": "String",
+        "required": true,
+        "dateFormat": "dd/MM/yyyy"
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_identity_pep_foreigner_id",
+    "name": "Colombia — PEP (Special Stay Permit)",
+    "url": "/v2/co/foreigner-id/pep",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "expeditionDate",
+        "type": "String",
+        "required": true,
+        "dateFormat": "dd/MM/yyyy"
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_identity_ppt_foreigner_id",
+    "name": "Colombia — PPT (Temporary Protection Permit)",
+    "url": "/v2/co/foreigner-id/ppt",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "expeditionDate",
+        "type": "String",
+        "required": true,
+        "dateFormat": "dd/MM/yyyy"
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_inpec_lookup",
+    "name": "Colombia - INPEC Prison Records Check",
+    "url": "/v2/co/inpec",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CC"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "firstSurname",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_vehicle_fines_medellin",
+    "name": "Colombia - Medellin Transit Fines",
+    "url": "/v2/co/medellin/vehicle/fines",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "plate",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_min_trabajo",
+    "name": "Colombia - Labor Certificates Verification",
+    "url": "/v2/co/ministerio-de-trabajo/certificados",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CC",
+          "CE",
+          "PPT",
+          "PEP",
+          "PA"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_special_api_police_identity_lookup",
+    "name": "Colombia - Colombian Police Record Check",
+    "url": "/v2/co/policia/consultar",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CC",
+          "NIT"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_police_rnmc",
+    "name": "Colombia - Verify Police Compliance with Corrective Measures",
+    "url": "/v2/co/policia/rnmc",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CC",
+          "CE",
+          "TI",
+          "PA"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "date",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_pep_lookup",
+    "name": "Colombia — Politically exposed persons (PEP) lookup",
+    "url": "/v2/co/politically-exposed-persons",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CC"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "consultar_procesos_judiciales",
+    "name": "Colombia - Judicial Processes",
+    "url": "/v2/co/procesos",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CC",
+          "CE",
+          "PEP"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_criminal_history",
+    "name": "Colombia - Disciplinary Records in Colombia (attorney's office)",
+    "url": "/v2/co/procuraduria/antecedentes",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CC",
+          "CE",
+          "PEP"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_lawyers",
+    "name": "Colombia — Lawyer lookup",
+    "url": "/v2/co/rama/abogados",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CC",
+          "CE",
+          "PEP"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_lawyers_certificate",
+    "name": "Colombia - Certificate of Validity for Legal Professionals",
+    "url": "/v2/co/rama/certificado/vigencia",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CC",
+          "NIT",
+          "CE"
+        ]
+      },
+      {
+        "field": "quality",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "ABG",
+          "JUEZPAZ",
+          "LT"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_judicial_records",
+    "name": "Colombia — Judicial records (court files / expedientes)",
+    "url": "/v2/co/rama/juzgado/expedientes",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CC"
+        ]
+      },
+      {
+        "field": "city",
+        "type": "String",
+        "required": false,
+        "enum": [
+          "BOGOTA",
+          "VILLAVICENCIO",
+          "TUNJA",
+          "QUIBDO",
+          "CALI",
+          "POPAYAN",
+          "PASTO",
+          "PALMIRA",
+          "NEIVA",
+          "MEDELLIN",
+          "MANIZALES",
+          "IBAGUE",
+          "FLORENCIA",
+          "BUGA",
+          "BUCARAMANGA",
+          "BARRANQUILLA",
+          "ARMENIA"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_judicial_process_details",
+    "name": "Colombia - Retrieve Details of a Legal Process by Number",
+    "url": "/v2/co/rama/proceso",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "processNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_judicial_processes",
+    "name": "Colombia — Judicial processes",
+    "url": "/v2/co/rama/procesos",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CC",
+          "NIT"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_registraduria_certificate",
+    "name": "Colombia — Registraduría ID validity certificate (CC)",
+    "url": "/v2/co/registraduria/certificado",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CC"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "date",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_registraduria_matrimonio",
+    "name": "Colombia - Marriage Civil Registry (SCCRC)",
+    "url": "/v2/co/registraduria/matrimonio",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": false,
+        "description": "NUIP/CC (document mode; also needs sexo)",
+        "dependencyGroup": "1"
+      },
+      {
+        "field": "primerNombre",
+        "type": "String",
+        "required": false,
+        "description": "First given name (name mode)",
+        "dependencyGroup": "2"
+      },
+      {
+        "field": "primerApellido",
+        "type": "String",
+        "required": false,
+        "description": "First surname (name mode)",
+        "dependencyGroup": "2"
+      },
+      {
+        "field": "segundoNombre",
+        "type": "String",
+        "required": false,
+        "description": "Optional second given name",
+        "dependencyGroup": "2"
+      },
+      {
+        "field": "segundoApellido",
+        "type": "String",
+        "required": false,
+        "description": "Optional second surname",
+        "dependencyGroup": "2"
+      },
+      {
+        "field": "fecha",
+        "type": "String",
+        "required": false,
+        "description": "Marriage date DD/MM/YYYY (name mode)",
+        "dependencyGroup": "2",
+        "dateFormat": "dd/MM/yyyy"
+      },
+      {
+        "field": "serial",
+        "type": "String",
+        "required": false,
+        "description": "Marriage registry serial (serial mode)",
+        "dependencyGroup": "3"
+      },
+      {
+        "field": "sexo",
+        "type": "String",
+        "required": false,
+        "enum": [
+          "MASCULINO",
+          "FEMENINO",
+          "M",
+          "F"
+        ],
+        "description": "Required for document (Option B) and name (Option A) modes; not used with serial"
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_registraduria_serial",
+    "name": "Colombia - Civil Registry Lookup by Serial (SCCRC)",
+    "url": "/v2/co/registraduria/serial",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "serial",
+        "type": "String",
+        "required": true,
+        "description": "Civil registry serial printed on the registro civil (up to 10 digits)"
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_registraduria_voting",
+    "name": "Colombia - Retrieve Voting Information for Colombian Citizens",
+    "url": "/v2/co/registraduria/votacion",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_rues",
+    "name": "Colombia — RUES business lookup (v2, legacy)",
+    "url": "/v2/co/rues",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "NIT"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_rues_full",
+    "name": "Colombia — RUES complete lookup (v2, legacy)",
+    "url": "/v2/co/rues/complete",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "NIT"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_driver",
+    "name": "Colombia - RUNT - Driver's License",
+    "url": "/v2/co/runt/conductor",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CC",
+          "CE",
+          "PA",
+          "PPT",
+          "NIT"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_runt_owners",
+    "name": "Colombia - Vehicle Owners Verification (RUNT)",
+    "url": "/v2/co/runt/propietarios",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "plate",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_vehicle_complete_by_plate",
+    "name": "Colombia - Vehicle Records by Plate",
+    "url": "/v2/co/runt/vehicle-by-plate",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CC",
+          "CE",
+          "PA",
+          "NIT"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "plate",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_vehicle_complete_by_plate_simplified",
+    "name": "Colombia - Simplified Vehicle Records by Plate in RUNT",
+    "url": "/v2/co/runt/vehicle-by-plate-simplified",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CC",
+          "TI",
+          "CE",
+          "PA",
+          "RC"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "plate",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_vehicle_complete_by_vin",
+    "name": "Colombia - Vehicle Records by VIN",
+    "url": "/v2/co/runt/vehicle-by-vin",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "vin",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_vehicle",
+    "name": "Colombia - SOAT and RTM Validation in RUNT",
+    "url": "/v2/co/runt/vehiculo",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CC",
+          "TI",
+          "CE",
+          "PA",
+          "RC"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "plate",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_vehicle_complete",
+    "name": "Colombia - Complete Vehicle Information",
+    "url": "/v2/co/runt/vehiculo-completo",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "plate",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_vehicle_soat",
+    "name": "Colombia - Vehicle SOAT Status",
+    "url": "/v2/co/runt/vehiculo-soat",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "plate",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_sena",
+    "name": "Colombia - SENA Certificates",
+    "url": "/v2/co/sena/certificados",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CC",
+          "TI",
+          "CE",
+          "PA",
+          "RC",
+          "PEP"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_sigep_by_name",
+    "name": "Colombia — SIGEP lookup by full name",
+    "url": "/v2/co/sigep/name",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "fullName",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_sigep_by_number",
+    "name": "Colombia — SIGEP lookup by document",
+    "url": "/v2/co/sigep/number",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CC",
+          "NIT"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_simit_agreements",
+    "name": "Colombia - SIMIT - Agreements",
+    "url": "/v2/co/simit/acuerdos",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CC",
+          "CE",
+          "PA",
+          "RC",
+          "TI"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_simit_subpoenas_details",
+    "name": "Colombia - SIMIT Subpoena Details",
+    "url": "/v2/co/simit/comparendo",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CC",
+          "CE",
+          "PA",
+          "RC",
+          "TI"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "numeroComparendo",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "idOrganismoTransito",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_simit_subpoenas",
+    "name": "Colombia - SIMIT - Fines",
+    "url": "/v2/co/simit/comparendos",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CC",
+          "CE",
+          "PA",
+          "RC",
+          "TI"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_simit_complete",
+    "name": "Colombia - SIMIT - General query by identification document",
+    "url": "/v2/co/simit/consultar",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "NIT",
+          "CC",
+          "CE",
+          "PA",
+          "RC",
+          "TI"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_simit_plate",
+    "name": "Colombia - SIMIT - General query by plate number",
+    "url": "/v2/co/simit/consultar/placa",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "plate",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_simit_resolutions",
+    "name": "Colombia - SIMIT - Resolutions",
+    "url": "/v2/co/simit/resoluciones",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CC",
+          "CE",
+          "PA",
+          "RC",
+          "TI"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_simit_suspensions",
+    "name": "Colombia - SIMIT - License suspensions",
+    "url": "/v2/co/simit/suspensiones",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CC",
+          "CE",
+          "PA",
+          "RC",
+          "TI"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_sisben_api_lookup",
+    "name": "Colombia — SISBEN score",
+    "url": "/v2/co/sisben",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CC",
+          "CE",
+          "PEP",
+          "PPT",
+          "PA"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_sisconmp",
+    "name": "Colombia - SISCONMP Training Records",
+    "url": "/v2/co/sisconmp/trainings",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CC",
+          "CE"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_military_situation",
+    "name": "Colombia — Military service status",
+    "url": "/v2/co/situacion-militar",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CC"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_pico_placa",
+    "name": "Colombia - Pico y Placa",
+    "url": "/v2/co/vehiculo/pico-y-placa",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "plate",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "communication_global_email_otp",
+    "name": "Email OTP",
+    "url": "/v2/communication/email",
+    "method": "GET",
+    "country": "world",
+    "dependencies": [
+      {
+        "field": "email",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "communication_messaging_sms",
+    "name": "SMS Messaging",
+    "url": "/v2/communication/sms",
+    "method": "GET",
+    "country": "world",
+    "dependencies": [
+      {
+        "field": "countryCode",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "phone",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "message",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "communication_global_messaging_whatsapp",
+    "name": "Global - WhatsApp Messaging",
+    "url": "/v2/communication/whatsapp",
+    "method": "GET",
+    "country": "world",
+    "dependencies": [
+      {
+        "field": "countryCode",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "phone",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "message",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "communication_colombia_messaging_whatsapp",
+    "name": "Colombia - WhatsApp Messaging",
+    "url": "/v2/communication/whatsapp/co",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "countryCode",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "phone",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "message",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "world_api_covid",
+    "name": "Global - COVID Statistics",
+    "url": "/v2/covid/statistics",
+    "method": "GET",
+    "country": "world",
+    "dependencies": []
+  },
+  {
+    "code": "costarica_api_identity_lookup",
+    "name": "Costa Rica - Costa Rican Citizen (CCCR)",
+    "url": "/v2/cr/cedula",
+    "method": "GET",
+    "country": "Costa Rica",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CCCR"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "costa_rica_api_business_lookup",
+    "name": "Costa Rica - Costa Rican Business Verification (NITE)",
+    "url": "/v2/cr/company",
+    "method": "GET",
+    "country": "Costa Rica",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "NITE"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "costa_rica_api_traffic_infractions",
+    "name": "Costa Rica - Traffic Infractions",
+    "url": "/v2/cr/traffic-infractions",
+    "method": "GET",
+    "country": "Costa Rica",
+    "dependencies": [
+      {
+        "field": "plate",
+        "type": "String",
+        "required": true,
+        "min": 3,
+        "max": 6,
+        "description": "Vehicle license plate to consult, without spaces or special characters (max 6)."
+      },
+      {
+        "field": "force",
+        "type": "String",
+        "required": false,
+        "enum": [
+          "true",
+          "false"
+        ],
+        "description": "When true, bypasses cached records and fetches fresh data from the source."
+      }
+    ]
+  },
+  {
+    "code": "costa_rica_api_vehicle",
+    "name": "Costa Rica - Vehicle Information",
+    "url": "/v2/cr/vehicle",
+    "method": "GET",
+    "country": "Costa Rica",
+    "dependencies": [
+      {
+        "field": "plate",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "costarica_api_voting_location",
+    "name": "Costa Rica - Voting Location",
+    "url": "/v2/cr/votacion",
+    "method": "GET",
+    "country": "Costa Rica",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CCCR"
+        ],
+        "description": "Document type. Allowed value: CCCR."
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true,
+        "description": "Costa Rican identity document number (9 to 13 digits)."
+      }
+    ]
+  },
+  {
+    "code": "credit_intent",
+    "name": "Credit Purchase Intent",
+    "url": "/v2/credit-intents",
+    "method": "GET",
+    "country": "world",
+    "dependencies": [
+      {
+        "field": "externalDatabaseRefID",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "category",
+        "type": "String",
+        "required": false
+      }
+    ]
+  },
+  {
+    "code": "credit_intent_kyc_passwordless",
+    "name": "KYC Passwordless Credit Intent",
+    "url": "/v2/credit-intents/kyc-passwordless",
+    "method": "GET",
+    "country": "world",
+    "dependencies": []
+  },
+  {
+    "code": "data_finance_balancesheet",
+    "name": "Financial - Balance Sheet",
+    "url": "/v2/data-financiera/balancesheet",
+    "method": "GET",
+    "country": "world",
+    "dependencies": [
+      {
+        "field": "symbols",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "data_finance_cashflow",
+    "name": "Financial - Cash Flow",
+    "url": "/v2/data-financiera/cashflow",
+    "method": "GET",
+    "country": "world",
+    "dependencies": [
+      {
+        "field": "symbols",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "data_finance_incomestatement",
+    "name": "Financial - Income Statement",
+    "url": "/v2/data-financiera/incomestatement",
+    "method": "GET",
+    "country": "world",
+    "dependencies": [
+      {
+        "field": "symbols",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "data_finance_stockprice",
+    "name": "Financial - Stock Price",
+    "url": "/v2/data-financiera/stockprice",
+    "method": "GET",
+    "country": "world",
+    "dependencies": [
+      {
+        "field": "symbols",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "world_api_dea",
+    "name": "Global - DEA Background Check",
+    "url": "/v2/dea",
+    "method": "GET",
+    "country": "world",
+    "dependencies": [
+      {
+        "field": "fullName",
+        "type": "String",
+        "required": false,
+        "description": "Full name for search (alternative to document search)",
+        "dependencyGroup": "2"
+      },
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": false,
+        "enum": [
+          "CC",
+          "CE",
+          "PEP",
+          "PPT",
+          "NIT",
+          "CCVE",
+          "CCEC",
+          "DNI",
+          "DNIAR",
+          "DNIHN",
+          "CIC",
+          "CIE",
+          "RUN",
+          "CURP",
+          "CUI",
+          "CCPA",
+          "CI",
+          "CPF",
+          "DUI",
+          "CCUY",
+          "CUIT",
+          "RUCEC",
+          "FME",
+          "RUC",
+          "RUT",
+          "CNPJ"
+        ],
+        "description": "Document type (required if not using fullName)",
+        "dependencyGroup": "1"
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": false,
+        "description": "Document number (required if not using fullName)",
+        "dependencyGroup": "1"
+      },
+      {
+        "field": "dateOfBirth",
+        "type": "String",
+        "required": false,
+        "description": "Date of birth (required for certain document types: CCPA, CI, CPF, DUI, CCUY)",
+        "dependencyGroup": "1",
+        "dateFormat": "dd/MM/yyyy",
+        "requiredWhen": {
+          "field": "documentType",
+          "in": [
+            "CCPA",
+            "CI",
+            "CPF",
+            "DUI",
+            "CCUY"
+          ]
+        }
+      },
+      {
+        "field": "expirationDate",
+        "type": "String",
+        "required": false,
+        "description": "Document expiration date (required for document types CE, PPT, and PEP; dd/mm/yyyy)",
+        "dependencyGroup": "1",
+        "dateFormat": "dd/MM/yyyy",
+        "requiredWhen": {
+          "field": "documentType",
+          "in": [
+            "CE",
+            "PPT",
+            "PEP"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "code": "republica_dominicana_api_citizen_lookup",
+    "name": "República Dominicana - Dominican Citizen",
+    "url": "/v2/do/cedula",
+    "method": "GET",
+    "country": "República Dominicana",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CIE"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "ecuador_api_identity_lookup",
+    "name": "Ecuador - Ecuadorian Citizen",
+    "url": "/v2/ec/cedula",
+    "method": "GET",
+    "country": "Ecuador",
+    "dependencies": [
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "ecuador_api_criminal_history",
+    "name": "Ecuador - Criminal History",
+    "url": "/v2/ec/cedula/antecedentes",
+    "method": "GET",
+    "country": "Ecuador",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CCEC"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "ecuador_api_company_lookup",
+    "name": "Ecuador - Ecuadorian Business Verification",
+    "url": "/v2/ec/company",
+    "method": "GET",
+    "country": "Ecuador",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "RUCEC"
+        ],
+        "min": "",
+        "max": ""
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true,
+        "min": "",
+        "max": ""
+      }
+    ]
+  },
+  {
+    "code": "ecuador_api_vehicle",
+    "name": "Ecuador - Vehicle Verification",
+    "url": "/v2/ec/vehiculo/placa",
+    "method": "GET",
+    "country": "Ecuador",
+    "dependencies": [
+      {
+        "field": "plate",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "ecuador_api_vehicle_fines",
+    "name": "Ecuador - Vehicle Fines",
+    "url": "/v2/ec/vehiculo/placa/multas",
+    "method": "GET",
+    "country": "Ecuador",
+    "dependencies": [
+      {
+        "field": "plate",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "spain_api_identity_lookup",
+    "name": "Spain - Spanish Citizen",
+    "url": "/v2/es/cedula",
+    "method": "GET",
+    "country": "Spain",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "NIE",
+          "DNIES"
+        ]
+      },
+      {
+        "field": "expirationDate",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "spain_api_company_lookup",
+    "name": "Spain - Spanish Business Verification",
+    "url": "/v2/es/company",
+    "method": "GET",
+    "country": "Spain",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "NIF"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "spain_api_vehicle_lookup",
+    "name": "Spain - Spain",
+    "url": "/v2/es/vehicle",
+    "method": "GET",
+    "country": "Spain",
+    "dependencies": [
+      {
+        "field": "plate",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "world_api_europol",
+    "name": "Global - Europol Background Check",
+    "url": "/v2/europol",
+    "method": "GET",
+    "country": "world",
+    "dependencies": [
+      {
+        "field": "fullName",
+        "type": "String",
+        "required": false,
+        "description": "Full name for search (alternative to document search)",
+        "dependencyGroup": "2"
+      },
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": false,
+        "enum": [
+          "CC",
+          "CE",
+          "PEP",
+          "PPT",
+          "NIT",
+          "CCVE",
+          "CCEC",
+          "DNI",
+          "DNIAR",
+          "DNIHN",
+          "CIC",
+          "CIE",
+          "RUN",
+          "CURP",
+          "CUI",
+          "CCPA",
+          "CI",
+          "CPF",
+          "DUI",
+          "CCUY",
+          "CUIT",
+          "RUCEC",
+          "FME",
+          "RUC",
+          "RUT",
+          "CNPJ"
+        ],
+        "description": "Document type (required if not using fullName)",
+        "dependencyGroup": "1"
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": false,
+        "description": "Document number (required if not using fullName)",
+        "dependencyGroup": "1"
+      },
+      {
+        "field": "dateOfBirth",
+        "type": "String",
+        "required": false,
+        "description": "Date of birth (required for certain document types: CCPA, CI, CPF, DUI, CCUY)",
+        "dependencyGroup": "1",
+        "dateFormat": "dd/MM/yyyy",
+        "requiredWhen": {
+          "field": "documentType",
+          "in": [
+            "CCPA",
+            "CI",
+            "CPF",
+            "DUI",
+            "CCUY"
+          ]
+        }
+      },
+      {
+        "field": "expirationDate",
+        "type": "String",
+        "required": false,
+        "description": "Document expiration date (required for document types CE, PPT, and PEP; dd/mm/yyyy)",
+        "dependencyGroup": "1",
+        "dateFormat": "dd/MM/yyyy",
+        "requiredWhen": {
+          "field": "documentType",
+          "in": [
+            "CE",
+            "PPT",
+            "PEP"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "code": "face_recognition_collections",
+    "name": "Global - Create Face Collection",
+    "url": "/v2/face-recognition/collections",
+    "method": "POST",
+    "country": "world",
+    "dependencies": [
+      {
+        "field": "name",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "description",
+        "type": "String",
+        "required": false
+      }
+    ]
+  },
+  {
+    "code": "face_recognition_compare",
+    "name": "Global - Face Comparison",
+    "url": "/v2/face-recognition/compare",
+    "method": "GET",
+    "country": "world",
+    "dependencies": [
+      {
+        "field": "search_mode",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "gallery",
+        "type": "Array",
+        "required": true
+      },
+      {
+        "field": "probe",
+        "type": "Array",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "face_recognition_compare_live",
+    "name": "Global - Face Comparison (Live)",
+    "url": "/v2/face-recognition/compare-live",
+    "method": "GET",
+    "country": "world",
+    "dependencies": [
+      {
+        "field": "search_mode",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "gallery",
+        "type": "Array",
+        "required": true
+      },
+      {
+        "field": "probe",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "os",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "liveness_min_score",
+        "type": "Number",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "face_recognition_detect",
+    "name": "Global - Face Detection",
+    "url": "/v2/face-recognition/detect",
+    "method": "GET",
+    "country": "world",
+    "dependencies": [
+      {
+        "field": "image",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "collection_id",
+        "type": "String",
+        "required": false
+      },
+      {
+        "field": "max_results",
+        "type": "Number",
+        "required": false
+      },
+      {
+        "field": "min_score",
+        "type": "Number",
+        "required": true
+      },
+      {
+        "field": "search_mode",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "face_recognition_detect_face",
+    "name": "Face Detection",
+    "url": "/v2/face-recognition/face-validation",
+    "method": "GET",
+    "country": "world",
+    "dependencies": [
+      {
+        "field": "image",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "face_recognition_liveness",
+    "name": "Global - Liveness Detection",
+    "url": "/v2/face-recognition/liveness",
+    "method": "GET",
+    "country": "world",
+    "dependencies": [
+      {
+        "field": "image",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "os",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "face_recognition_liveness_score",
+    "name": "Global - Liveness Score (OpenCV)",
+    "url": "/v2/face-recognition/liveness-score",
+    "method": "POST",
+    "country": "world",
+    "dependencies": [
+      {
+        "field": "image",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "os",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "face_recognition_persons",
+    "name": "Global - Create Face Person",
+    "url": "/v2/face-recognition/persons",
+    "method": "POST",
+    "country": "world",
+    "dependencies": [
+      {
+        "field": "name",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "images",
+        "type": "Array",
+        "required": true
+      },
+      {
+        "field": "gender",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "M",
+          "F"
+        ]
+      },
+      {
+        "field": "date_of_birth",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "nationality",
+        "type": "String",
+        "required": false
+      },
+      {
+        "field": "collections",
+        "type": "Array",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "face_recognition_persons_live",
+    "name": "Global - Create Face Person With Liveness",
+    "url": "/v2/face-recognition/persons/search-live-face",
+    "method": "POST",
+    "country": "world",
+    "dependencies": [
+      {
+        "field": "name",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "images",
+        "type": "Array",
+        "required": true
+      },
+      {
+        "field": "gender",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "M",
+          "F"
+        ]
+      },
+      {
+        "field": "date_of_birth",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "nationality",
+        "type": "String",
+        "required": false
+      },
+      {
+        "field": "collection_id",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "liveness_min_score",
+        "type": "Number",
+        "required": true,
+        "min": 0.5,
+        "max": 1
+      },
+      {
+        "field": "min_score",
+        "type": "Number",
+        "required": true,
+        "min": 0.5,
+        "max": 1
+      },
+      {
+        "field": "search_mode",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "FAST",
+          "ACCURATE"
+        ]
+      }
+    ]
+  },
+  {
+    "code": "face_recognition_search",
+    "name": "Global - Face Search (1:N)",
+    "url": "/v2/face-recognition/search",
+    "method": "GET",
+    "country": "world",
+    "dependencies": [
+      {
+        "field": "images",
+        "type": "Array",
+        "required": true
+      },
+      {
+        "field": "collection_id",
+        "type": "String",
+        "required": false
+      },
+      {
+        "field": "max_results",
+        "type": "Number",
+        "required": false
+      },
+      {
+        "field": "min_score",
+        "type": "Number",
+        "required": true
+      },
+      {
+        "field": "search_mode",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "face_recognition_search_active_user",
+    "name": "Global - Face Search 1:N (Active User)",
+    "url": "/v2/face-recognition/search-active-user",
+    "method": "GET",
+    "country": "world",
+    "dependencies": [
+      {
+        "field": "image",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "os",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "min_score",
+        "type": "Number",
+        "required": true
+      },
+      {
+        "field": "search_mode",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "collection_id",
+        "type": "String",
+        "required": false
+      }
+    ]
+  },
+  {
+    "code": "face_recognition_search_live_face",
+    "name": "Global - Face Search 1:N (Live)",
+    "url": "/v2/face-recognition/search-live-face",
+    "method": "GET",
+    "country": "world",
+    "dependencies": [
+      {
+        "field": "image",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "os",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "liveness_min_score",
+        "type": "Number",
+        "required": true
+      },
+      {
+        "field": "min_score",
+        "type": "Number",
+        "required": true
+      },
+      {
+        "field": "search_mode",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "collection_id",
+        "type": "String",
+        "required": false
+      }
+    ]
+  },
+  {
+    "code": "face_recognition_search_crops",
+    "name": "Global - Face Search 1:N (Crops)",
+    "url": "/v2/face-recognition/search/crops",
+    "method": "GET",
+    "country": "world",
+    "dependencies": [
+      {
+        "field": "images",
+        "type": "Array",
+        "required": true
+      },
+      {
+        "field": "collection_id",
+        "type": "String",
+        "required": false
+      },
+      {
+        "field": "max_results",
+        "type": "Number",
+        "required": false
+      },
+      {
+        "field": "min_score",
+        "type": "Number",
+        "required": true
+      },
+      {
+        "field": "search_mode",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "face_recognition_verify",
+    "name": "Global - Verify Face (1:1 vs enrolled person)",
+    "url": "/v2/face-recognition/verify",
+    "method": "GET",
+    "country": "world",
+    "dependencies": [
+      {
+        "field": "id",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "images",
+        "type": "Array",
+        "required": true
+      },
+      {
+        "field": "min_score",
+        "type": "Number",
+        "required": true
+      },
+      {
+        "field": "search_mode",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "world_api_fbi",
+    "name": "Global - FBI Background Check",
+    "url": "/v2/fbi",
+    "method": "GET",
+    "country": "world",
+    "dependencies": [
+      {
+        "field": "fullName",
+        "type": "String",
+        "required": false,
+        "description": "Full name for search (alternative to document search)",
+        "dependencyGroup": "2"
+      },
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": false,
+        "enum": [
+          "CC",
+          "CE",
+          "PEP",
+          "PPT",
+          "NIT",
+          "CCVE",
+          "CCEC",
+          "DNI",
+          "DNIAR",
+          "DNIHN",
+          "CIC",
+          "CIE",
+          "RUN",
+          "CURP",
+          "CUI",
+          "CCPA",
+          "CI",
+          "CPF",
+          "DUI",
+          "CCUY",
+          "CUIT",
+          "RUCEC",
+          "FME",
+          "RUC",
+          "RUT",
+          "CNPJ"
+        ],
+        "description": "Document type (required if not using fullName)",
+        "dependencyGroup": "1"
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": false,
+        "description": "Document number (required if not using fullName)",
+        "dependencyGroup": "1"
+      },
+      {
+        "field": "dateOfBirth",
+        "type": "String",
+        "required": false,
+        "description": "Date of birth (required for certain document types: CCPA, CI, CPF, DUI, CCUY)",
+        "dependencyGroup": "1",
+        "dateFormat": "dd/MM/yyyy",
+        "requiredWhen": {
+          "field": "documentType",
+          "in": [
+            "CCPA",
+            "CI",
+            "CPF",
+            "DUI",
+            "CCUY"
+          ]
+        }
+      },
+      {
+        "field": "expirationDate",
+        "type": "String",
+        "required": false,
+        "description": "Document expiration date (required for document types CE, PPT, and PEP; dd/mm/yyyy)",
+        "dependencyGroup": "1",
+        "dateFormat": "dd/MM/yyyy",
+        "requiredWhen": {
+          "field": "documentType",
+          "in": [
+            "CE",
+            "PPT",
+            "PEP"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "code": "guatemala_api_identity_lookup",
+    "name": "Guatemala - Guatemalan Citizen",
+    "url": "/v2/gt/cedula",
+    "method": "GET",
+    "country": "Guatemala",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CUI"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "dateOfBirth",
+        "type": "String",
+        "required": true,
+        "description": "Date of birth in DD/MM/YYYY format.",
+        "dateFormat": "dd/MM/yyyy"
+      }
+    ]
+  },
+  {
+    "code": "guatemala_api_identity_extra_lookup",
+    "name": "Guatemala - Guatemala Extra",
+    "url": "/v2/gt/cedula/extra",
+    "method": "GET",
+    "country": "Guatemala",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CUI"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "dateOfBirth",
+        "type": "String",
+        "required": true,
+        "description": "Date of birth in DD/MM/YYYY format.",
+        "dateFormat": "dd/MM/yyyy"
+      }
+    ]
+  },
+  {
+    "code": "honduras_api_identity_lookup",
+    "name": "Honduras - Honduran Citizen",
+    "url": "/v2/hn/cedula",
+    "method": "GET",
+    "country": "Honduras",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "DNIHN"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "honduras_api_voting_location",
+    "name": "Honduras - Voting Location",
+    "url": "/v2/hn/votacion",
+    "method": "GET",
+    "country": "Honduras",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "DNIHN"
+        ],
+        "description": "Document type. Allowed value: DNIHN."
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true,
+        "description": "Honduran identity document number (13 digits)."
+      }
+    ]
+  },
+  {
+    "code": "india_api_epic_lookup",
+    "name": "India - India EPIC (Voter ID) — Person & Name Lookup | Verifik",
+    "url": "/v2/in/epic",
+    "method": "GET",
+    "country": "India",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "EPIC"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "india_api_epic_voting_lookup",
+    "name": "India - India EPIC (Voter ID) — Polling & voting location | Verifik",
+    "url": "/v2/in/epic/votacion",
+    "method": "GET",
+    "country": "India",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "EPIC"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "world_api_interpol",
+    "name": "Global - Interpol Background Check",
+    "url": "/v2/interpol",
+    "method": "GET",
+    "country": "world",
+    "dependencies": [
+      {
+        "field": "fullName",
+        "type": "String",
+        "required": false,
+        "description": "Full name for search (alternative to document search)",
+        "dependencyGroup": "2"
+      },
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": false,
+        "enum": [
+          "CC",
+          "CE",
+          "PEP",
+          "PPT",
+          "NIT",
+          "CCVE",
+          "CCEC",
+          "DNI",
+          "DNIAR",
+          "DNIHN",
+          "CIC",
+          "CIE",
+          "RUN",
+          "CURP",
+          "CUI",
+          "CCPA",
+          "CI",
+          "CPF",
+          "DUI",
+          "CCUY",
+          "CUIT",
+          "RUCEC",
+          "FME",
+          "RUC",
+          "RUT",
+          "CNPJ"
+        ],
+        "description": "Document type (required if not using fullName)",
+        "dependencyGroup": "1"
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": false,
+        "description": "Document number (required if not using fullName)",
+        "dependencyGroup": "1"
+      },
+      {
+        "field": "dateOfBirth",
+        "type": "String",
+        "required": false,
+        "description": "Date of birth (required for certain document types: CCPA, CI, CPF, DUI, CCUY)",
+        "dependencyGroup": "1",
+        "dateFormat": "dd/MM/yyyy",
+        "requiredWhen": {
+          "field": "documentType",
+          "in": [
+            "CCPA",
+            "CI",
+            "CPF",
+            "DUI",
+            "CCUY"
+          ]
+        }
+      },
+      {
+        "field": "expirationDate",
+        "type": "String",
+        "required": false,
+        "description": "Document expiration date (required for document types CE, PPT, and PEP; dd/mm/yyyy)",
+        "dependencyGroup": "1",
+        "dateFormat": "dd/MM/yyyy",
+        "requiredWhen": {
+          "field": "documentType",
+          "in": [
+            "CE",
+            "PPT",
+            "PEP"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "code": "ip-lookup",
+    "name": "IP Geolocation Lookup",
+    "url": "/v2/ip-lookup",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "ip",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "world_api_phone_lookup",
+    "name": "Global - Phone Lookup",
+    "url": "/v2/look-ups/phone",
+    "method": "GET",
+    "country": "world",
+    "dependencies": [
+      {
+        "field": "countryCode",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "phone",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "mexico_api_company",
+    "name": "Mexico - Mexican Business Verification",
+    "url": "/v2/mx/company",
+    "method": "GET",
+    "country": "Mexico",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "FME"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "mexico_identity_lookup",
+    "name": "Mexico - Mexican Citizen",
+    "url": "/v2/mx/curp",
+    "method": "GET",
+    "country": "Mexico",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CURP"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "mexico_api_ine_validate",
+    "name": "Mexico - INE Validation",
+    "url": "/v2/mx/ine",
+    "method": "GET",
+    "country": "Mexico",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "INE"
+        ],
+        "description": "Document type. Allowed value: INE."
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true,
+        "min": 9,
+        "max": 18,
+        "description": "Primary INE identifier: CIC (9 digits), OCR (13 digits), or clave de elector (18 characters)."
+      },
+      {
+        "field": "citizenIdentifier",
+        "type": "String",
+        "required": false,
+        "description": "Citizen identifier from the back of the credential. Required for models E, F, G, and H with CIC."
+      },
+      {
+        "field": "emissionNumber",
+        "type": "String",
+        "required": false,
+        "description": "Emission number. Required for model C with OCR and clave de elector."
+      },
+      {
+        "field": "model",
+        "type": "String",
+        "required": false,
+        "enum": [
+          "C",
+          "D",
+          "E",
+          "F",
+          "G",
+          "H"
+        ],
+        "description": "Optional INE card model hint to select the correct field combination."
+      }
+    ]
+  },
+  {
+    "code": "Mexico_api_ine_model_c",
+    "name": "Mexico - INE Model C",
+    "url": "/v2/mx/ine/modelo/c",
+    "method": "GET",
+    "country": "Mexico",
+    "dependencies": [
+      {
+        "field": "keyElector",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "issueNumber",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "ocr",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "Mexico_api_ine_model_d",
+    "name": "Mexico - INE Model D",
+    "url": "/v2/mx/ine/modelo/d",
+    "method": "GET",
+    "country": "Mexico",
+    "dependencies": [
+      {
+        "field": "cic",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "ocr",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "Mexico_api_ine_model_e",
+    "name": "Mexico - INE Model E",
+    "url": "/v2/mx/ine/modelo/e",
+    "method": "GET",
+    "country": "Mexico",
+    "dependencies": [
+      {
+        "field": "cic",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "idCitizen",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "mexico_api_ine_ocr",
+    "name": "Mexico - INE OCR",
+    "url": "/v2/mx/ine/ocr",
+    "method": "GET",
+    "country": "Mexico",
+    "dependencies": [
+      {
+        "field": "front",
+        "type": "String",
+        "required": true,
+        "description": "Front image of the INE as a public URL or base64 string."
+      },
+      {
+        "field": "back",
+        "type": "String",
+        "required": false,
+        "description": "Optional back image as a public URL or base64 string. Improves OCR accuracy."
+      }
+    ]
+  },
+  {
+    "code": "mexico_api_vehicle",
+    "name": "Mexico - Mexico",
+    "url": "/v2/mx/vehiculo/placa",
+    "method": "GET",
+    "country": "Mexico",
+    "dependencies": [
+      {
+        "field": "plate",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "ocr_scan_gpt",
+    "name": "OCR Document Scan Prompt",
+    "url": "/v2/ocr/scan-gpt",
+    "method": "GET",
+    "country": "world",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "country",
+        "type": "String",
+        "required": false
+      },
+      {
+        "field": "image",
+        "type": "String",
+        "required": false
+      }
+    ]
+  },
+  {
+    "code": "ocr_scan_pro",
+    "name": "OCR Document Scan Pro",
+    "url": "/v2/ocr/scan-pro",
+    "method": "GET",
+    "country": "world",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "country",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "image",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "ocr_scan_studio",
+    "name": "OCR Document Scan Studio",
+    "url": "/v2/ocr/scan-studio",
+    "method": "GET",
+    "country": "world",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "country",
+        "type": "String",
+        "required": false
+      },
+      {
+        "field": "image",
+        "type": "String",
+        "required": false
+      }
+    ]
+  },
+  {
+    "code": "world_api_ofac",
+    "name": "Global - OFAC Background Check",
+    "url": "/v2/ofac",
+    "method": "GET",
+    "country": "world",
+    "dependencies": [
+      {
+        "field": "fullName",
+        "type": "String",
+        "required": false,
+        "description": "Full name for search (alternative to document search)",
+        "dependencyGroup": "2"
+      },
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": false,
+        "enum": [
+          "CC",
+          "CE",
+          "PEP",
+          "PPT",
+          "NIT",
+          "CCVE",
+          "CCEC",
+          "DNI",
+          "DNIAR",
+          "DNIHN",
+          "CIC",
+          "CIE",
+          "RUN",
+          "CURP",
+          "CUI",
+          "CCPA",
+          "CI",
+          "CPF",
+          "DUI",
+          "CCUY",
+          "CUIT",
+          "RUCEC",
+          "FME",
+          "RUC",
+          "RUT",
+          "CNPJ"
+        ],
+        "description": "Document type (required if not using fullName)",
+        "dependencyGroup": "1"
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": false,
+        "description": "Document number (required if not using fullName)",
+        "dependencyGroup": "1"
+      },
+      {
+        "field": "dateOfBirth",
+        "type": "String",
+        "required": false,
+        "description": "Date of birth (required for certain document types: CCPA, CI, CPF, DUI, CCUY)",
+        "dependencyGroup": "1",
+        "dateFormat": "dd/MM/yyyy",
+        "requiredWhen": {
+          "field": "documentType",
+          "in": [
+            "CCPA",
+            "CI",
+            "CPF",
+            "DUI",
+            "CCUY"
+          ]
+        }
+      },
+      {
+        "field": "expirationDate",
+        "type": "String",
+        "required": false,
+        "description": "Document expiration date (required for document types CE, PPT, and PEP; dd/mm/yyyy)",
+        "dependencyGroup": "1",
+        "dateFormat": "dd/MM/yyyy",
+        "requiredWhen": {
+          "field": "documentType",
+          "in": [
+            "CE",
+            "PPT",
+            "PEP"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "code": "world_api_onu",
+    "name": "Global - ONU Background Check",
+    "url": "/v2/onu",
+    "method": "GET",
+    "country": "world",
+    "dependencies": [
+      {
+        "field": "fullName",
+        "type": "String",
+        "required": false,
+        "description": "Full name for search (alternative to document search)",
+        "dependencyGroup": "2"
+      },
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": false,
+        "enum": [
+          "CC",
+          "CE",
+          "PEP",
+          "PPT",
+          "NIT",
+          "CCVE",
+          "CCEC",
+          "DNI",
+          "DNIAR",
+          "DNIHN",
+          "CIC",
+          "CIE",
+          "RUN",
+          "CURP",
+          "CUI",
+          "CCPA",
+          "CI",
+          "CPF",
+          "DUI",
+          "CCUY",
+          "CUIT",
+          "RUCEC",
+          "FME",
+          "RUC",
+          "RUT",
+          "CNPJ"
+        ],
+        "description": "Document type (required if not using fullName)",
+        "dependencyGroup": "1"
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": false,
+        "description": "Document number (required if not using fullName)",
+        "dependencyGroup": "1"
+      },
+      {
+        "field": "dateOfBirth",
+        "type": "String",
+        "required": false,
+        "description": "Date of birth (required for certain document types: CCPA, CI, CPF, DUI, CCUY)",
+        "dependencyGroup": "1",
+        "dateFormat": "dd/MM/yyyy",
+        "requiredWhen": {
+          "field": "documentType",
+          "in": [
+            "CCPA",
+            "CI",
+            "CPF",
+            "DUI",
+            "CCUY"
+          ]
+        }
+      },
+      {
+        "field": "expirationDate",
+        "type": "String",
+        "required": false,
+        "description": "Document expiration date (required for document types CE, PPT, and PEP; dd/mm/yyyy)",
+        "dependencyGroup": "1",
+        "dateFormat": "dd/MM/yyyy",
+        "requiredWhen": {
+          "field": "documentType",
+          "in": [
+            "CE",
+            "PPT",
+            "PEP"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "code": "panama_api_identity_lookup",
+    "name": "Panama - Panamanian Citizen",
+    "url": "/v2/pa/cedula",
+    "method": "GET",
+    "country": "Panama",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CCPA"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "panama_api_identity_full_lookup",
+    "name": "Panama - National ID Verification",
+    "url": "/v2/pa/cedula/extra",
+    "method": "GET",
+    "country": "Panama",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CCPA"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "panama_api_business_lookup",
+    "name": "Panama - Panamanian Business Verification",
+    "url": "/v2/pa/company",
+    "method": "GET",
+    "country": "Panama",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "RUC"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "dv",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "panama_api_vehicle",
+    "name": "Panama - Vehicle Verification",
+    "url": "/v2/pa/vehiculo/placa",
+    "method": "GET",
+    "country": "Panama",
+    "dependencies": [
+      {
+        "field": "plate",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "us_api_passport_entries",
+    "name": "United States - Passport & U.S. entries",
+    "url": "/v2/passport/us/entries",
+    "method": "GET",
+    "country": "United States",
+    "dependencies": [
+      {
+        "field": "firstName",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "passportCountry",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "passportNumber",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "lastName",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "dateOfBirth",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "peru_identity_lookup",
+    "name": "Peru - National ID Verification",
+    "url": "/v2/pe/cedula",
+    "method": "GET",
+    "country": "Peru",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "DNI"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "peru_identity_extra_lookup",
+    "name": "Peru - National ID Verification",
+    "url": "/v2/pe/cedula/extra",
+    "method": "GET",
+    "country": "Peru",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "DNI"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "peru_api_driver_license_lookup",
+    "name": "Peru - Driver License",
+    "url": "/v2/pe/driver-license",
+    "method": "GET",
+    "country": "Peru",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "DNI"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "peru_api_company_lookup",
+    "name": "Peru - Business Registration Lookup",
+    "url": "/v2/pe/empresa",
+    "method": "GET",
+    "country": "Peru",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "RUC"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "peru_api_identity_ce_foreigner_id",
+    "name": "Peru - Foreigner ID",
+    "url": "/v2/pe/foreigner-id/ce",
+    "method": "GET",
+    "country": "Peru",
+    "dependencies": [
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "dateOfBirth",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "peru_api_vehicle",
+    "name": "Peru - Vehicle Information",
+    "url": "/v2/pe/vehiculo/placa",
+    "method": "GET",
+    "country": "Peru",
+    "dependencies": [
+      {
+        "field": "plate",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "peru_api_vehicle_soat",
+    "name": "Peru - Vehicle Insurance",
+    "url": "/v2/pe/vehiculo/soat",
+    "method": "GET",
+    "country": "Peru",
+    "dependencies": [
+      {
+        "field": "plate",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "feature_kyc_solution",
+    "name": "KYC Solution",
+    "url": "/v2/projects",
+    "method": "GET",
+    "country": "world",
+    "dependencies": []
+  },
+  {
+    "code": "paraguay_api_identity_lookup",
+    "name": "Paraguay - Paraguayan Citizen",
+    "url": "/v2/py/cic",
+    "method": "GET",
+    "country": "Paraguay",
+    "dependencies": [
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "paraguay_api_business_lookup",
+    "name": "Paraguay - Paraguayan Business Verification",
+    "url": "/v2/py/company",
+    "method": "GET",
+    "country": "Paraguay",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "RUC"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "paraguay_api_vehicle",
+    "name": "Paraguay - Vehicle Information",
+    "url": "/v2/py/vehicle",
+    "method": "GET",
+    "country": "Paraguay",
+    "dependencies": [
+      {
+        "field": "plate",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "el_salvador_api_identity_lookup",
+    "name": "El Salvador - Salvadoran Citizen",
+    "url": "/v2/sv/dui",
+    "method": "GET",
+    "country": "El Salvador",
+    "dependencies": [
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true,
+        "min": "",
+        "max": ""
+      },
+      {
+        "field": "dateOfBirth",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "usa_api_company",
+    "name": "United States - United States Business Verification",
+    "url": "/v2/usa/company",
+    "method": "GET",
+    "country": "United States",
+    "dependencies": [
+      {
+        "field": "business",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "usa_api_driver_license_lookup",
+    "name": "United States - Florida Driver License",
+    "url": "/v2/usa/florida/driver-license",
+    "method": "GET",
+    "country": "United States",
+    "dependencies": [
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "usa_api_driver_license_lookup_kansas",
+    "name": "United States - Kansas Driver License",
+    "url": "/v2/usa/kansas/driver-license",
+    "method": "GET",
+    "country": "United States",
+    "dependencies": [
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "dateOfBirth",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "firstName",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "lastName",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "usa_api_ssn",
+    "name": "United States - United States SSN Verification",
+    "url": "/v2/usa/ssn",
+    "method": "GET",
+    "country": "United States",
+    "dependencies": [
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "usa_api_vehicle",
+    "name": "United States - Vehicle Information",
+    "url": "/v2/usa/vehicle",
+    "method": "GET",
+    "country": "United States",
+    "dependencies": [
+      {
+        "field": "state",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "AL",
+          "AK",
+          "AZ",
+          "AR",
+          "CA",
+          "CO",
+          "CT",
+          "DE",
+          "FL",
+          "GA",
+          "HI",
+          "ID",
+          "IL",
+          "IN",
+          "IA",
+          "KS",
+          "KY",
+          "LA",
+          "ME",
+          "MD",
+          "MA",
+          "MI",
+          "MN",
+          "MS",
+          "MO",
+          "MT",
+          "NE",
+          "NV",
+          "NH",
+          "NJ",
+          "NM",
+          "NY",
+          "NC",
+          "ND",
+          "OH",
+          "OK",
+          "OR",
+          "PA",
+          "RI",
+          "SC",
+          "SD",
+          "TN",
+          "TX",
+          "UT",
+          "VT",
+          "VA",
+          "WA",
+          "WV",
+          "WI",
+          "WY"
+        ]
+      },
+      {
+        "field": "plate",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "usa_api_vehicle_lookup_by_vin",
+    "name": "United States - Vehicle by VIN",
+    "url": "/v2/usa/vehicle-by-vin",
+    "method": "GET",
+    "country": "United States",
+    "dependencies": [
+      {
+        "field": "vin",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "uruguay_api_identity_lookup",
+    "name": "Uruguay - Uruguayan Citizen",
+    "url": "/v2/uy/cedula",
+    "method": "GET",
+    "country": "Uruguay",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CCUY"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      },
+      {
+        "field": "dateOfBirth",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "venezuela_api_identity_lookup",
+    "name": "Venezuela - Venezuelan Citizen (CCVE)",
+    "url": "/v2/ve/cedula",
+    "method": "GET",
+    "country": "Venezuela",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CCVE"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "venezuela_foreigner_api",
+    "name": "Venezuela - Foreigner ID (CEVE)",
+    "url": "/v2/ve/foreigner-id",
+    "method": "GET",
+    "country": "Venezuela",
+    "dependencies": [
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "api_data_sheet_vehicle",
+    "name": "Vehicle Data Sheet (deprecated)",
+    "url": "/v2/vehicle/data-sheet",
+    "method": "GET",
+    "country": "Argentina",
+    "dependencies": []
+  },
+  {
+    "code": "zelf-proofs",
+    "name": "Global - Encrypt HumanID",
+    "url": "/v2/zelf-proof/encrypt",
+    "method": "GET",
+    "country": "world",
+    "dependencies": []
+  },
+  {
+    "code": "zelf-proof-liveness-active-user",
+    "name": "Zelf Proof with Liveness (Active user)",
+    "url": "/v2/zelf-proof/encrypt-with-liveness-active-user",
+    "method": "GET",
+    "country": "world",
+    "dependencies": []
+  },
+  {
+    "code": "argentina_api_vehicle_v3",
+    "name": "Argentina - Vehicle v3",
+    "url": "/v3/ar/vehicle",
+    "method": "GET",
+    "country": "Argentina",
+    "dependencies": [
+      {
+        "field": "plate",
+        "type": "String",
+        "required": true,
+        "description": "Vehicle license plate to query, without spaces or punctuation."
+      }
+    ]
+  },
+  {
+    "code": "chile_api_vehicle_v3",
+    "name": "Chile - Vehicle Technical Review",
+    "url": "/v3/cl/vehicle",
+    "method": "GET",
+    "country": "Chile",
+    "dependencies": [
+      {
+        "field": "plate",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_min_trabajo_v3",
+    "name": "Colombia — Ministry of Labor certificates (v3)",
+    "url": "/v3/co/ministerio-de-trabajo/certificados",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "CC",
+          "CE",
+          "PPT",
+          "PEP",
+          "PA"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_rues_v3",
+    "name": "Colombia — RUES business lookup (v3)",
+    "url": "/v3/co/rues",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "NIT"
+        ]
+      },
+      {
+        "field": "category",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "RM",
+          "PROP",
+          "RUNEOL",
+          "RNT",
+          "ESAL",
+          "RESAL",
+          "JUEGOS",
+          "EXTRANJERAS"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "colombia_api_rues_full_v3",
+    "name": "Colombia - RUES Complete Business Validation (v3)",
+    "url": "/v3/co/rues-complete",
+    "method": "GET",
+    "country": "Colombia",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "NIT"
+        ]
+      },
+      {
+        "field": "category",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "RM",
+          "PROP",
+          "RUNEOL",
+          "RNT",
+          "ESAL",
+          "RESAL",
+          "JUEGOS",
+          "EXTRANJERAS"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "ecuador_api_company_lookup_v3",
+    "name": "Ecuador - Ecuadorian Business Verification (v3)",
+    "url": "/v3/ec/company",
+    "method": "GET",
+    "country": "Ecuador",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "RUCEC"
+        ],
+        "min": "",
+        "max": ""
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true,
+        "min": "",
+        "max": ""
+      }
+    ]
+  },
+  {
+    "code": "ecuador_api_vehicle_v3",
+    "name": "Ecuador - Vehicle Verification",
+    "url": "/v3/ec/vehiculo/placa",
+    "method": "GET",
+    "country": "Ecuador",
+    "dependencies": [
+      {
+        "field": "plate",
+        "type": "String",
+        "required": true,
+        "description": "Vehicle license plate to query, without spaces or punctuation."
+      }
+    ]
+  },
+  {
+    "code": "peru_identity_lookup_v3",
+    "name": "Peru - Peru",
+    "url": "/v3/pe/cedula",
+    "method": "GET",
+    "country": "Peru",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "DNI"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "peru_identity_extra_lookup_v3",
+    "name": "Peru - Full ID",
+    "url": "/v3/pe/cedula/extra",
+    "method": "GET",
+    "country": "Peru",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "DNI"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "peru_api_company_lookup_v3",
+    "name": "Peru - Peruvian Business Verification",
+    "url": "/v3/pe/company",
+    "method": "GET",
+    "country": "Peru",
+    "dependencies": [
+      {
+        "field": "documentType",
+        "type": "String",
+        "required": true,
+        "enum": [
+          "RUC"
+        ]
+      },
+      {
+        "field": "documentNumber",
+        "type": "String",
+        "required": true
+      }
+    ]
+  },
+  {
+    "code": "peru_api_vehicle_v3",
+    "name": "Peru - Vehicle Information",
+    "url": "/v3/pe/vehiculo/placa",
+    "method": "GET",
+    "country": "Peru",
+    "dependencies": [
+      {
+        "field": "plate",
+        "type": "String",
+        "required": true,
+        "description": "Vehicle license plate to query, without spaces or punctuation."
+      }
+    ]
+  }
+]

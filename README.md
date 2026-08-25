@@ -1,6 +1,6 @@
 # verifik-smartcheck
 
-FastAPI service in front of `verifik-backend`. Home and health are the scaffold. SISPRO is the first product: **sync proxy** by default, **queue** when `?type=queue`.
+FastAPI service in front of `verifik-backend`. Home and health are the scaffold. SISPRO and cédula are first-class facades. Every other catalog URL from `app-features-final.json` is registered the same way: **sync proxy** by default, **queue** when `?type=queue`.
 
 Python never verifies JWTs. It forwards `Authorization: Bearer …` to Node. Node stays the store (credits, `APIRequest`, SmartBatch). Python is the public facade — and, for queue, the unattended Smart-Agent tab.
 
@@ -43,9 +43,13 @@ uvicorn app.main:app --reload --port 8000
 - Home (this README as HTML): http://localhost:8000/
 - Health: http://localhost:8000/health
 - SISPRO (proxies Node): http://localhost:8000/v2/co/afiliaciones
-- Swagger: http://localhost:8000/docs
+- Cédula (proxies Node): http://localhost:8000/v2/co/cedula
+- Other catalog URLs (e.g. Peru): http://localhost:8000/v2/pe/cedula
+- Swagger: http://localhost:8000/docs (one operation per catalog feature)
 
-`VERIFIK_API_URL` comes from `.env` (see `app/core/config.py`). Process env wins, then `.env`, then the class default `https://verifik.app`. Pass the same `Authorization: Bearer <jwt>` header Company A already uses on Node. Python does not have a JWT secret. After you change `.env`, restart uvicorn — `get_settings()` is cached.
+`VERIFIK_API_URL` comes from `.env` (see `app/core/config.py`). Process env wins, then `.env`, then the class default `https://verifik.app`. Pass the same `Authorization: Bearer <jwt>` header Company A already uses on Node. Python does not have a JWT secret.
+
+Queue tick needs the same `VERIFIK_INTERNAL_SECRET` on Python and Node. Leave it empty and the lifespan loop does not start. `QUEUE_TICK_ENABLED=false` in pytest so tests do not tick. After you change `.env`, restart uvicorn — `get_settings()` is cached.
 
 `GET /` is declared in `home_route.py` as `add_api_route("/", ...)`, not by the function name `get`. FastAPI 404s unknown paths as `{"detail": "Not Found"}`.
 
@@ -77,8 +81,10 @@ app/
   repositories/health/                     # same five files
   repositories/sispro/                     # GET /v2/co/afiliaciones (sync + queue)
     modules/sispro_module.py               # sync GET → Node SISPRO
-    modules/smart_batch_module.py          # Node SmartBatch HTTP (enqueue / claim / attempt)
-    modules/sispro_queue_worker.py         # open-tab loop: claim → SISPRO → POST attempt
+    modules/smart_batch_module.py          # generic from-queue + HMAC claim + invoke_claimed
+    modules/sispro_queue_worker.py         # tick: HMAC claim → claimed path + attempt
+  repositories/cedula/                     # GET /v2/co/cedula (sync + queue)
+  repositories/catalog/                    # remaining AppFeature URLs from app_features.json
   clients/verifik.py                       # httpx client (forwards Authorization)
   workers/                                 # later: Redis / TaskIQ when this loop is too small
   policies/                                # later: hour / day / total retry budgets
@@ -104,7 +110,7 @@ router.add_api_route(
 
 Controllers catch errors the same way as Node. `HttpHandler.error_handler` understands `401`, `404`, `409`, `412`, … and prefixed messages (`raise ApiError("412:missing_otp")`). Middleware that runs as `Depends` raises `ApiError` so the response stays `{code, message}` (not FastAPI’s `{"detail": ...}`).
 
-SISPRO query matches Node Joi: `documentType` (`CC|CE|PA|PE`), `documentNumber` (min 5), `date` (`DD/MM/YYYY`), optional `force` / `audit` / `type`. Missing/invalid query is `409` + `MissingParameter`. Node’s own 200/401/404/409 body is returned as-is. Timeout is `504`; Node unreachable is `503`.
+SISPRO query matches Node Joi: `documentType` (`CC|CE|PA|PE`), `documentNumber` (min 5), `date` (`DD/MM/YYYY`), optional `force` / `audit` / `type`. Cédula matches Node: `documentType` (`CC|PPT`), `documentNumber` (5–10), no date, optional `type`. Missing/invalid query is `409` + `MissingParameter`. Node’s own 200/401/404/409 body is returned as-is. Timeout is `504`; Node unreachable is `503`.
 
 Every folder that we import from has an empty `__init__.py`. That only marks the directory as a Python package (`require("../controllers/x")` does not need this; `from app.repositories.home.routes import home_route` does).
 
@@ -126,7 +132,7 @@ Python does **not** write Mongo. Node already has SmartBatch / rows / `smartbatc
 
 | Job | Owner |
 | --- | --- |
-| Public API (`GET /v2/co/afiliaciones`) | Python |
+| Public API (`GET /v2/co/afiliaciones`, `GET /v2/co/cedula`) | Python |
 | JWT check, credits, SISPRO scrape, SmartBatch documents | Node |
 | Claim next row / append attempt / customer webhook | Node |
 | “Open tab” loop (claim → SISPRO → record attempt) | Python |
@@ -162,52 +168,58 @@ Poll Node `GET /v2/smart-batches/:id` or watch Smart-Agent. When the row is term
 
 ### Sequence (queue)
 
-1. **Enqueue** — Python `POST /v2/smart-batches/from-queue` with `{ documentType, documentNumber, date }`. Node finds the client's default config by `{ client, queueKey: "co.sispro.queue" }` (`Queue SISPRO`, one step `colombia_api_affiliations`, `maxRetries` 3). First call creates it; the 2nd / 3rd / 4th reuse that same document (display name can change; the key does not). Then it inserts a 1-row SmartBatch on that `configId`.
-2. **202** goes back to Company A immediately.
-3. **BackgroundTasks** runs `sispro_queue_worker.process_next(authorization)` after the response (Starlette `BackgroundTasks` ≈ “do this after I reply”, not Redis).
-4. **Claim** — `GET /v2/smart-batches/queue/next`. Node marks that row `processing` and returns `{ batchId, rowIndex, inputData, attemptCount, maxRetries }`. Skips batches that already have a FeatureRunner `run` (server-side start).
-5. **Execute** — same `sispro_module.get` as sync, JWT from the original request.
-6. **Record** — `POST /v2/smart-batches/:id/rows/:rowIndex/attempts`. Node bumps `attemptCount`, pushes `{ attempt, at, status, statusCode, code, message }`, merges `results` on success. Payloads stay on the row / `smartbatchrows`, not on every attempt.
-7. **Webhook** — if the row is **terminal** and `batchConfiguration.notification.webhookUrl` is set, Node sends the same payload the tab already sent:
-   - `row.completed` — this row is done, others still running
-   - `batch.completed` — every row is done  
-   Empty URL → skip. Python never POSTs the customer webhook.
-8. Loop until `claim_next` returns `null`.
+1. **Enqueue** — Python `POST /v2/smart-batches/from-queue` with a **feature spec** (`queueKey`, `featureCode`, `name`, `inputData`). Node finds `{ client, queueKey }` or creates that config (`executor: "queue"`). SISPRO is the first caller (`co.sispro.queue`); cédula is the second (`co.cedula.queue` / `colombia_api_identity_lookup`).
+2. **202** goes back to Company A immediately. The customer JWT is **not** stored.
+3. **Immediate kick** — `BackgroundTasks` runs one `process_next` after the reply (same as the tick).
+4. **Tick** — uvicorn lifespan loops every `QUEUE_TICK_SECONDS`. No cron URL. Set `QUEUE_TICK_ENABLED` / `VERIFIK_INTERNAL_SECRET` in `.env`.
+5. **Claim** — `GET /v2/internal/smart-batches/queue/next` with `x-verifik-internal-key` = sha256 of the shared secret. Node claims the oldest `executor: "queue"` row and **mints a 300s client JWT** (same as FeatureRunner). Restart-safe: Mongo holds the row; the next tick mints a new token.
+6. **Execute** — `GET`/`POST` the **claimed `path`** (from the config's AppFeature) with the minted Bearer so credits still bill that client. Not hardcoded to SISPRO.
+7. **Record** — `POST /v2/smart-batches/:id/rows/:rowIndex/attempts` with the minted Bearer. Node fires `notification.webhookUrl` on a terminal row/batch.
+8. Loop until claim is empty or `QUEUE_TICK_MAX_ROWS`.
 
-Retryable = 429, 5xx, or codes `Timeout` / `ServiceUnavailable` / `timeout_database` / `upstream_error`. **Not** 404 or `MissingParameter`. A retryable fail stays claimable until `attemptCount >= maxRetries`. Then the row is finished and the webhook can fire.
+We do **not** put JWTs in Redis or Mongo. Stale `processing` rows older than the mint TTL are claimable again (Python died mid-attempt).
+
+`executor` on the config/batch: `queue` (this worker), `featureRunner` (Node Start), `browser` (tab only). Smart-Agent can set it; Start for `queue` only flips status. The UI polls progress.
+
+Retryable = 429, 5xx, or codes `Timeout` / `ServiceUnavailable` / `timeout_database` / `upstream_error`. **Not** 404 or `MissingParameter`.
 
 ### Node pieces to keep in your head
 
 ```
 verifik-backend/Repositories/SmartBatch/
-  models/smart-batch.model.js          # rows[].attemptCount, rows[].attempts[]
-  modules/smart-batch.module.js        # createFromQueue, claimNext, appendAttempt, notifyRowOrBatch
-  routes/smart-batch.routes.js         # /from-queue and /queue/next BEFORE /:id
+  models/smart-batch.model.js                 # executor + rows[].attempts[]
+  routes/smart-batch-internal.routes.js       # GET /v2/internal/smart-batches/queue/next
+  modules/smart-batch.module.js               # claimNext HMAC + mintRunnerToken
 ```
-
-`notifyRowOrBatch` is the old `updateRow` webhook block, extracted. Tab and worker share it.
 
 ### Python pieces
 
 ```
-sispro_controller.get          → sync or enqueue
-smart_batch_module             → thin httpx to those three Node routes
-sispro_queue_worker            → while claim: SISPRO then append_attempt
-sispro_module.get              → strips `type` so Node SISPRO never sees it
+app/main.py lifespan           → tick loop (no cron URL)
+smart_batch_module             → generic from-queue + HMAC claim + invoke_claimed
+sispro_queue_worker            → claim HMAC → invoke claimed path + attempt
+sispro_module.SISPRO_QUEUE     → first product spec
+cedula_module.CEDULA_QUEUE     → second product spec (`co.cedula.queue`)
 ```
 
-`BackgroundTasks` is in-process. Restart the process and an in-flight loop dies. Redis / TaskIQ when that is too small. Hour / day / total retry caps are also later — this pass is only per-row `maxRetries`.
+Hour / day / total retry caps and Redis / TaskIQ stay later. This pass is per-row `maxRetries` + the in-process tick.
 
 ### Try it
 
 ```bash
 # sync — same as before (wait for SISPRO)
 curl -sS -H "Authorization: Bearer $JWT" \
-  "http://localhost:3062/v2/co/afiliaciones?documentType=CC&documentNumber=1007463534&date=09/05/2008"
+  "http://localhost:8000/v2/co/afiliaciones?documentType=CC&documentNumber=1007463534&date=09/05/2008"
 
 # queue — 202, then the worker claims and writes attempts
 curl -sS -H "Authorization: Bearer $JWT" \
-  "http://localhost:3062/v2/co/afiliaciones?documentType=CC&documentNumber=1007463534&date=09/05/2008&type=queue"
+  "http://localhost:8000/v2/co/afiliaciones?documentType=CC&documentNumber=1007463534&date=09/05/2008&type=queue"
+
+# cédula queue — six cached CC numbers share Queue Cedula (co.cedula.queue)
+for n in 56097217 63535790 1023942104 34503117 49716272 64585026; do
+  curl -sS -H "Authorization: Bearer $JWT" \
+    "http://localhost:8000/v2/co/cedula?documentType=CC&documentNumber=$n&type=queue"
+done
 ```
 
 Then open Smart-Agent on that `batchId`. List rows show `attempts: N`. Detail shows the timeline.
@@ -216,8 +228,8 @@ Swagger (`/docs`) documents `type`. Click **Authorize**, then **Try it out**.
 
 ### Tests (no live Node)
 
-`tests/test_sispro.py` mocks httpx. The five Supre production-ok rows are parametrized (`1007463534`, `1064118303`, `1003005729`, `32288038`, `1067592151`). Queue tests assert `202` and that SISPRO is **not** called on the enqueue request. Worker tests assert a `completed` attempt on 200 and a `failed` attempt on 404.
+`tests/test_sispro.py` and `tests/test_cedula.py` mock httpx. Pytest sets `QUEUE_TICK_ENABLED=false` so the lifespan loop does not run. Queue tests assert `202` and the product spec (`queueKey` / `featureCode`). Worker tests assert a `completed` attempt on 200, a `failed` attempt on 404, and that SISPRO + attempt use the **minted** Bearer from claim — not the enqueue JWT.
 
 ```bash
-pytest tests/test_sispro.py
+pytest tests/test_sispro.py tests/test_cedula.py
 ```

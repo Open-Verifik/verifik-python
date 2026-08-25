@@ -16,6 +16,10 @@ class Settings(BaseSettings):
     port: int = 8000
     verifik_api_url: str = "https://verifik.app"
     verifik_timeout_seconds: float = 125
+    verifik_internal_secret: str | None = None
+    queue_tick_enabled: bool = True
+    queue_tick_seconds: float = 15
+    queue_tick_max_rows: int = 10
 
     @property
     def should_verify_ssl(self) -> bool:

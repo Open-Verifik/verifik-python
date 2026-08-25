@@ -8,9 +8,8 @@ from starlette.responses import Response
 from app.core import http_handler as HttpHandler
 from app.core.http_handler import ApiError
 from app.core.security import bearer_scheme
+from app.repositories.sispro.modules import queue_enqueue as QueueEnqueue
 from app.repositories.sispro.modules import sispro_module as Module
-from app.repositories.sispro.modules import sispro_queue_worker as QueueWorker
-from app.repositories.sispro.modules import smart_batch_module as SmartBatchModule
 
 
 def get(
@@ -41,15 +40,16 @@ def get(
 
 
 def enqueue(request: Request, background_tasks: BackgroundTasks) -> JSONResponse:
-    data = SmartBatchModule.create_from_queue(request.state.params, request.state.authorization)
-    background_tasks.add_task(QueueWorker.process_next, request.state.authorization)
+    params = request.state.params
 
-    return JSONResponse(
-        status_code=202,
-        content={
-            "status": "queued",
-            "batchId": str(data["batchId"]),
-            "rowIndex": data.get("rowIndex", 0),
-            "attemptCount": data.get("attemptCount", 0),
+    return QueueEnqueue.enqueue(
+        request.state.authorization,
+        Module.SISPRO_QUEUE,
+        {
+            "documentType": params["documentType"],
+            "documentNumber": params["documentNumber"],
+            "date": params["date"],
         },
+        background_tasks,
+        batch_name=f"SISPRO {params['documentNumber']}",
     )

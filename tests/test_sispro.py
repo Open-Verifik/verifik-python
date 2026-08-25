@@ -156,11 +156,13 @@ def test_sispro_rejects_invalid_type() -> None:
 
 def test_sispro_queue_returns_202_without_calling_sispro(monkeypatch) -> None:
     calls: list[str] = []
+    posted = {}
 
     def handler(request: httpx.Request) -> httpx.Response:
         calls.append(request.url.path)
 
         if request.url.path == "/v2/smart-batches/from-queue":
+            posted["body"] = json.loads(request.content)
             return httpx.Response(
                 200,
                 json={
@@ -173,11 +175,15 @@ def test_sispro_queue_returns_202_without_calling_sispro(monkeypatch) -> None:
                 },
             )
 
-        if request.url.path == "/v2/smart-batches/queue/next":
+        if request.url.path in {
+            "/v2/smart-batches/queue/next",
+            "/v2/internal/smart-batches/queue/next",
+        }:
             return httpx.Response(200, json={"data": None})
 
         raise AssertionError(f"unexpected Node path {request.url.path}")
 
+    monkeypatch.setattr(smart_batch_module, "claim_next_hmac", lambda: None)
     monkeypatch.setattr(
         smart_batch_module,
         "get_verifik_client",
@@ -204,6 +210,9 @@ def test_sispro_queue_returns_202_without_calling_sispro(monkeypatch) -> None:
     }
     assert "/v2/co/afiliaciones" not in calls
     assert "/v2/smart-batches/from-queue" in calls
+    assert posted["body"]["queueKey"] == "co.sispro.queue"
+    assert posted["body"]["featureCode"] == "colombia_api_affiliations"
+    assert posted["body"]["inputData"]["documentNumber"] == VALID_QUERY["documentNumber"]
 
 
 def test_sispro_worker_posts_success_attempt(monkeypatch) -> None:
@@ -224,11 +233,6 @@ def test_sispro_worker_posts_success_attempt(monkeypatch) -> None:
         raise AssertionError(f"unexpected {request.method} {request.url.path}")
 
     monkeypatch.setattr(
-        sispro_module,
-        "get_verifik_client",
-        lambda: httpx.Client(transport=httpx.MockTransport(handler), base_url="http://node.test"),
-    )
-    monkeypatch.setattr(
         smart_batch_module,
         "get_verifik_client",
         lambda: httpx.Client(transport=httpx.MockTransport(handler), base_url="http://node.test"),
@@ -239,6 +243,8 @@ def test_sispro_worker_posts_success_attempt(monkeypatch) -> None:
         {
             "batchId": "batch-1",
             "rowIndex": 0,
+            "path": "/v2/co/afiliaciones",
+            "method": "GET",
             "inputData": SUPRE_OK_RECORDS[0],
         },
     )
@@ -262,11 +268,6 @@ def test_sispro_worker_posts_failed_attempt_on_404(monkeypatch) -> None:
         raise AssertionError(f"unexpected {request.method} {request.url.path}")
 
     monkeypatch.setattr(
-        sispro_module,
-        "get_verifik_client",
-        lambda: httpx.Client(transport=httpx.MockTransport(handler), base_url="http://node.test"),
-    )
-    monkeypatch.setattr(
         smart_batch_module,
         "get_verifik_client",
         lambda: httpx.Client(transport=httpx.MockTransport(handler), base_url="http://node.test"),
@@ -274,9 +275,82 @@ def test_sispro_worker_posts_failed_attempt_on_404(monkeypatch) -> None:
 
     sispro_queue_worker.execute_and_record(
         "Bearer test-jwt",
-        {"batchId": "batch-1", "rowIndex": 0, "inputData": VALID_QUERY},
+        {
+            "batchId": "batch-1",
+            "rowIndex": 0,
+            "path": "/v2/co/afiliaciones",
+            "method": "GET",
+            "inputData": VALID_QUERY,
+        },
     )
 
     assert posted["body"]["status"] == "failed"
     assert posted["body"]["statusCode"] == 404
     assert posted["body"]["code"] == "NotFound"
+
+
+def test_sispro_worker_skips_when_tick_is_not_configured() -> None:
+    sispro_queue_worker.process_next()
+
+
+def test_sispro_worker_uses_minted_authorization(monkeypatch) -> None:
+    forwarded: list[str] = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        if request.url.path == "/v2/co/afiliaciones":
+            forwarded.append(request.headers.get("authorization") or "")
+            return httpx.Response(200, json={"data": {"ok": True}, "signature": "abc"})
+
+        if request.method == "POST" and request.url.path.endswith("/attempts"):
+            forwarded.append(request.headers.get("authorization") or "")
+            return httpx.Response(200, json={"data": {}})
+
+        raise AssertionError(f"unexpected {request.method} {request.url.path}")
+
+    calls = {"n": 0}
+
+    def claim_once() -> dict | None:
+        calls["n"] += 1
+        if calls["n"] == 1:
+            return {
+                "batchId": "batch-1",
+                "rowIndex": 0,
+                "path": "/v2/co/afiliaciones",
+                "method": "GET",
+                "inputData": VALID_QUERY,
+                "authorization": "Bearer minted-jwt",
+            }
+        return None
+
+    monkeypatch.setattr(smart_batch_module, "claim_next_hmac", claim_once)
+    monkeypatch.setattr(
+        smart_batch_module,
+        "get_verifik_client",
+        lambda: httpx.Client(transport=httpx.MockTransport(handler), base_url="http://node.test"),
+    )
+
+    sispro_queue_worker.process_next()
+
+    assert forwarded == ["Bearer minted-jwt", "Bearer minted-jwt"]
+
+
+def test_sispro_claim_next_hmac_sends_internal_key(monkeypatch) -> None:
+    captured = {}
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        captured["path"] = request.url.path
+        captured["internal_key"] = request.headers.get("x-verifik-internal-key")
+        captured["authorization"] = request.headers.get("authorization")
+        return httpx.Response(200, json={"data": None})
+
+    monkeypatch.setattr(
+        smart_batch_module,
+        "get_verifik_client",
+        lambda: httpx.Client(transport=httpx.MockTransport(handler), base_url="http://node.test"),
+    )
+    monkeypatch.setattr(smart_batch_module, "internal_key", lambda: "hmac-hex")
+
+    assert smart_batch_module.claim_next_hmac() is None
+    assert captured["path"] == "/v2/internal/smart-batches/queue/next"
+    assert captured["internal_key"] == "hmac-hex"
+    assert captured["authorization"] is None

@@ -3,6 +3,15 @@ import httpx
 from app.clients.verifik import AFILIACIONES_PATH, get_verifik_client
 from app.core.http_handler import ApiError
 
+# First product on the generic from-queue API. Next features pass their own spec.
+SISPRO_QUEUE = {
+    "queueKey": "co.sispro.queue",
+    "name": "Queue SISPRO",
+    "legacyName": "SISPRO Queue",
+    "featureCode": "colombia_api_affiliations",
+    "country": "CO",
+}
+
 
 def get(params: dict, authorization: str) -> tuple[int, dict]:
     query = {key: value for key, value in params.items() if key != "type"}
