@@ -1,4 +1,5 @@
 import hashlib
+import re
 
 import httpx
 
@@ -9,7 +10,9 @@ from app.clients.verifik import (
     get_verifik_client,
 )
 from app.core.config import get_settings
-from app.core.http_handler import ApiError
+from app.core.http_handler import ApiError, error_handler
+
+TEMPLATE = re.compile(r"^\{\{\s*([^}]+?)\s*\}\}$")
 
 
 def raise_for_node(status: int, body: object) -> None:
@@ -85,14 +88,98 @@ def create_from_queue(
     return data
 
 
-def invoke_claimed(claimed: dict, authorization: str) -> tuple[int, dict]:
-    path = claimed.get("path")
-    if not path:
-        raise ApiError("503:claimed row is missing path")
+def _is_empty(value) -> bool:
+    return value is None or (isinstance(value, str) and value.strip() == "")
 
-    method = str(claimed.get("method") or "GET").upper()
-    input_data = claimed.get("inputData") or {}
-    params = {key: value for key, value in input_data.items() if key != "type"}
+
+def _get_by_path(source, path):
+    if not path or source is None:
+        return None
+
+    current = source
+    segments = [part for part in str(path).replace("[", ".").replace("]", "").split(".") if part]
+
+    for segment in segments:
+        if current is None:
+            return None
+        if isinstance(current, list):
+            try:
+                current = current[int(segment)]
+            except (ValueError, IndexError):
+                return None
+            continue
+        if not isinstance(current, dict):
+            return None
+        current = current.get(segment)
+
+    return current
+
+
+def _wrap_result(payload):
+    if not isinstance(payload, dict):
+        return {"data": payload}
+    if "data" in payload:
+        return payload
+    return {**payload, "data": payload}
+
+
+def _resolve_template(value, context):
+    if not isinstance(value, str):
+        return value
+    match = TEMPLATE.match(value)
+    if not match:
+        return value
+    return _get_by_path(context, match.group(1))
+
+
+def resolve_step_params(step: dict, input_data: dict, results: dict) -> dict:
+    context = {
+        "input": input_data or {},
+        "inputData": input_data or {},
+        "results": results or {},
+        "steps": {str(key): _wrap_result(payload) for key, payload in (results or {}).items()},
+    }
+    params: dict = {}
+
+    for dependency in step.get("dependencies") or []:
+        field = dependency.get("field")
+        if field and dependency.get("default") is not None:
+            params[field] = dependency["default"]
+
+    for dependency in step.get("dependencies") or []:
+        field = dependency.get("field")
+        if not field:
+            continue
+        raw = _get_by_path(input_data or {}, field)
+        if not _is_empty(raw):
+            params[field] = raw
+
+    for key, value in (step.get("parameterDefaults") or {}).items():
+        resolved = _resolve_template(value, context)
+        if not _is_empty(resolved):
+            params[key] = resolved
+
+    for input_column, api_param in (step.get("inputFieldMapping") or {}).items():
+        if not api_param:
+            continue
+        raw = (
+            _resolve_template(input_column, context)
+            if isinstance(input_column, str) and TEMPLATE.match(input_column)
+            else _get_by_path(input_data or {}, input_column)
+        )
+        if not _is_empty(raw):
+            params[api_param] = raw
+
+    cleaned = {}
+    for key, value in params.items():
+        if _is_empty(value):
+            continue
+        cleaned[key] = value.strip() if isinstance(value, str) else value
+    return cleaned
+
+
+def invoke_path(path: str, method: str, input_data: dict, authorization: str) -> tuple[int, dict]:
+    params = {key: value for key, value in (input_data or {}).items() if key != "type"}
 
     try:
         with get_verifik_client() as client:
@@ -115,6 +202,93 @@ def invoke_claimed(claimed: dict, authorization: str) -> tuple[int, dict]:
         raise ApiError("503")
 
     return response.status_code, body
+
+
+def invoke_claimed(claimed: dict, authorization: str) -> tuple[int, dict]:
+    path = claimed.get("path")
+    if not path:
+        raise ApiError("503:claimed row is missing path")
+
+    return invoke_path(
+        path,
+        str(claimed.get("method") or "GET").upper(),
+        claimed.get("inputData") or {},
+        authorization,
+    )
+
+
+def _step_failure(results: dict, sequence: int, status: int, body: dict) -> dict:
+    code = body.get("code") if isinstance(body, dict) else None
+    message = body.get("message") if isinstance(body, dict) else None
+    error_code = code or "Error"
+    error_message = message or ""
+    attempt = {
+        "status": "partial" if results else "failed",
+        "statusCode": status,
+        "code": error_code,
+        "message": error_message,
+        "errors": [{"step": sequence, "code": error_code, "message": error_message}],
+    }
+    if results:
+        attempt["results"] = results
+    return attempt
+
+
+def _has_step_result(results: dict, sequence: int) -> bool:
+    if not results:
+        return False
+    return results.get(sequence) is not None or results.get(str(sequence)) is not None
+
+
+def _seed_results(claimed: dict) -> dict:
+    seeded = {}
+    for key, value in (claimed.get("results") or {}).items():
+        if value is None:
+            continue
+        seeded[str(key)] = value
+    return seeded
+
+
+def invoke_claimed_steps(claimed: dict, authorization: str) -> dict:
+    steps = claimed.get("steps") or []
+    raw_input = claimed.get("rowInput") or claimed.get("inputData") or {}
+    results = _seed_results(claimed)
+
+    for index, step in enumerate(steps):
+        sequence = int(step.get("sequence") or index + 1)
+        path = step.get("path")
+        if not path:
+            raise ApiError("503:claimed row is missing path")
+
+        if _has_step_result(results, sequence):
+            continue
+
+        if results:
+            params = resolve_step_params(step, raw_input, results)
+        elif index == 0:
+            params = claimed.get("inputData") or {}
+        else:
+            params = resolve_step_params(step, raw_input, results)
+
+        try:
+            method = str(step.get("method") or "GET").upper()
+            status, body = invoke_path(path, method, params, authorization)
+        except ApiError as exception:
+            handled = error_handler(exception)
+            return _step_failure(
+                results,
+                sequence,
+                handled.status,
+                {"code": handled.code, "message": handled.message},
+            )
+
+        if status == 200:
+            results[str(sequence)] = body.get("data", body)
+            continue
+
+        return _step_failure(results, sequence, status, body)
+
+    return {"status": "completed", "statusCode": 200, "results": results}
 
 
 def claim_next_hmac() -> dict | None:

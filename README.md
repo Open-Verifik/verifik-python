@@ -4,6 +4,18 @@ FastAPI service in front of `verifik-backend`. Home and health are the scaffold.
 
 Python never verifies JWTs. It forwards `Authorization: Bearer …` to Node. Node stays the store (credits, `APIRequest`, SmartBatch). Python is the public facade — and, for queue, the unattended Smart-Agent tab.
 
+## Public hosts
+
+| Role | URL |
+| --- | --- |
+| Customer facade (this service) | `https://async.verifik.co` |
+| Node API | `https://api.verifik.co` |
+| Smart-Agent UI | `https://ai.verifik.co` |
+
+Integrators: [SmartBatch](https://docs.verifik.co/smart-batch) and [Call endpoints as queue (async)](https://docs.verifik.co/smart-batch/async-queue). Same catalog path, same JWT as Node, add `type=queue` for `202`.
+
+Operators (HMAC tick, env, PM2): [docs/ASYNC_QUEUE.md](docs/ASYNC_QUEUE.md).
+
 ## Node → Python
 
 | Node (`verifik-backend`) | This repo |
@@ -46,6 +58,8 @@ uvicorn app.main:app --reload --port 8000
 - Cédula (proxies Node): http://localhost:8000/v2/co/cedula
 - Other catalog URLs (e.g. Peru): http://localhost:8000/v2/pe/cedula
 - Swagger: http://localhost:8000/docs (one operation per catalog feature)
+
+Production is the same paths on `https://async.verifik.co` (Forge / PM2, port 3062). See [docs/ASYNC_QUEUE.md](docs/ASYNC_QUEUE.md).
 
 `VERIFIK_API_URL` comes from `.env` (see `app/core/config.py`). Process env wins, then `.env`, then the class default `https://verifik.app`. Pass the same `Authorization: Bearer <jwt>` header Company A already uses on Node. Python does not have a JWT secret.
 
@@ -117,6 +131,8 @@ Every folder that we import from has an empty `__init__.py`. That only marks the
 ---
 
 ## Tutorial: queue is an unattended Smart-Agent tab
+
+Full operator A–Z (claim, HMAC, PM2, production 401): [docs/ASYNC_QUEUE.md](docs/ASYNC_QUEUE.md).
 
 Read this if you already know the Koa SmartBatch dashboard and want the Python equivalent.
 

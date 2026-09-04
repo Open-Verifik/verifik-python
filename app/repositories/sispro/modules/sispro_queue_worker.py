@@ -40,6 +40,11 @@ def process_next(_authorization: str | None = None) -> None:
 
 
 def execute_and_record(authorization: str, claimed: dict) -> None:
+    steps = claimed.get("steps")
+    if isinstance(steps, list) and steps:
+        record_claimed_steps(authorization, claimed)
+        return
+
     try:
         status, body = smart_batch_module.invoke_claimed(claimed, authorization)
     except ApiError as exception:
@@ -54,6 +59,32 @@ def execute_and_record(authorization: str, claimed: dict) -> None:
     code = body.get("code") if isinstance(body, dict) else None
     message = body.get("message") if isinstance(body, dict) else None
     post_failure(claimed, authorization, status, code, message)
+
+
+def record_claimed_steps(authorization: str, claimed: dict) -> None:
+    try:
+        attempt = smart_batch_module.invoke_claimed_steps(claimed, authorization)
+    except ApiError as exception:
+        handled = error_handler(exception)
+        post_failure(claimed, authorization, handled.status, handled.code, handled.message)
+        return
+
+    smart_batch_module.append_attempt(
+        str(claimed["batchId"]),
+        int(claimed.get("rowIndex") or 0),
+        attempt,
+        authorization,
+    )
+    if attempt.get("status") == "completed":
+        logger.info("queue tick ok: completed %s", row_ref(claimed))
+        return
+    logger.warning(
+        "queue tick recorded %s %s status=%s code=%s",
+        attempt.get("status"),
+        row_ref(claimed),
+        attempt.get("statusCode"),
+        attempt.get("code"),
+    )
 
 
 def post_success(claimed: dict, authorization: str, body: dict) -> None:

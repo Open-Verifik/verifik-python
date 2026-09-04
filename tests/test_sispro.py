@@ -354,3 +354,162 @@ def test_sispro_claim_next_hmac_sends_internal_key(monkeypatch) -> None:
     assert captured["path"] == "/v2/internal/smart-batches/queue/next"
     assert captured["internal_key"] == "hmac-hex"
     assert captured["authorization"] is None
+
+
+TWO_STEP_CLAIM = {
+    "batchId": "batch-1",
+    "rowIndex": 0,
+    "path": "/v2/co/cedula",
+    "method": "GET",
+    "inputData": {"documentType": "CC", "documentNumber": "1032386359"},
+    "rowInput": {"numero": "1032386359", "tipo": "CE"},
+    "steps": [
+        {
+            "sequence": 1,
+            "path": "/v2/co/cedula",
+            "method": "GET",
+            "inputFieldMapping": {},
+            "parameterDefaults": {},
+            "dependencies": [],
+        },
+        {
+            "sequence": 2,
+            "path": "/v2/co/procuraduria/antecedentes",
+            "method": "GET",
+            "inputFieldMapping": {"numero": "documentNumber", "tipo": "documentType"},
+            "parameterDefaults": {},
+            "dependencies": [
+                {"field": "documentType", "default": "CC"},
+                {"field": "documentNumber"},
+            ],
+        },
+    ],
+}
+
+
+def test_sispro_worker_walks_claimed_steps(monkeypatch) -> None:
+    posted = {}
+    paths: list[str] = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        paths.append(request.url.path)
+        if request.url.path == "/v2/co/cedula":
+            return httpx.Response(
+                200,
+                json={
+                    "data": {"documentNumber": "1032386359", "firstName": "LILIA"},
+                    "signature": "a",
+                },
+            )
+        if request.url.path == "/v2/co/procuraduria/antecedentes":
+            assert request.url.params["documentNumber"] == "1032386359"
+            assert request.url.params["documentType"] == "CE"
+            return httpx.Response(
+                200,
+                json={
+                    "data": {"documentNumber": "1032386359", "antecedentes": []},
+                    "signature": "b",
+                },
+            )
+        if request.method == "POST" and request.url.path.endswith("/attempts"):
+            posted["body"] = json.loads(request.content)
+            return httpx.Response(200, json={"data": {}})
+        raise AssertionError(f"unexpected {request.method} {request.url.path}")
+
+    monkeypatch.setattr(
+        smart_batch_module,
+        "get_verifik_client",
+        lambda: httpx.Client(transport=httpx.MockTransport(handler), base_url="http://node.test"),
+    )
+
+    sispro_queue_worker.execute_and_record("Bearer test-jwt", TWO_STEP_CLAIM)
+
+    assert paths[:2] == ["/v2/co/cedula", "/v2/co/procuraduria/antecedentes"]
+    assert posted["body"]["status"] == "completed"
+    assert posted["body"]["results"]["1"]["firstName"] == "LILIA"
+    assert posted["body"]["results"]["2"]["antecedentes"] == []
+
+
+def test_sispro_worker_records_partial_when_later_step_fails(monkeypatch) -> None:
+    posted = {}
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        if request.url.path == "/v2/co/cedula":
+            return httpx.Response(
+                200,
+                json={"data": {"documentNumber": "1032386359"}, "signature": "a"},
+            )
+        if request.url.path == "/v2/co/procuraduria/antecedentes":
+            return httpx.Response(404, json={"code": "NotFound", "message": "Record not found."})
+        if request.method == "POST" and request.url.path.endswith("/attempts"):
+            posted["body"] = json.loads(request.content)
+            return httpx.Response(200, json={"data": {}})
+        raise AssertionError(f"unexpected {request.method} {request.url.path}")
+
+    monkeypatch.setattr(
+        smart_batch_module,
+        "get_verifik_client",
+        lambda: httpx.Client(transport=httpx.MockTransport(handler), base_url="http://node.test"),
+    )
+
+    sispro_queue_worker.execute_and_record("Bearer test-jwt", TWO_STEP_CLAIM)
+
+    assert posted["body"]["status"] == "partial"
+    assert posted["body"]["results"]["1"]["documentNumber"] == "1032386359"
+    assert "2" not in posted["body"]["results"]
+    assert posted["body"]["errors"][0]["step"] == 2
+
+
+def test_sispro_worker_skips_claimed_step_that_already_has_results(monkeypatch) -> None:
+    posted = {}
+    paths: list[str] = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        paths.append(request.url.path)
+        if request.url.path == "/v2/co/cedula":
+            raise AssertionError("step 1 should be skipped")
+        if request.url.path == "/v2/co/procuraduria/antecedentes":
+            return httpx.Response(
+                200,
+                json={"data": {"antecedentes": []}, "signature": "b"},
+            )
+        if request.method == "POST" and request.url.path.endswith("/attempts"):
+            posted["body"] = json.loads(request.content)
+            return httpx.Response(200, json={"data": {}})
+        raise AssertionError(f"unexpected {request.method} {request.url.path}")
+
+    monkeypatch.setattr(
+        smart_batch_module,
+        "get_verifik_client",
+        lambda: httpx.Client(transport=httpx.MockTransport(handler), base_url="http://node.test"),
+    )
+
+    claimed = {
+        **TWO_STEP_CLAIM,
+        "results": {"1": {"documentNumber": "1032386359", "firstName": "LILIA"}},
+    }
+    sispro_queue_worker.execute_and_record("Bearer test-jwt", claimed)
+
+    assert paths[0] == "/v2/co/procuraduria/antecedentes"
+    assert posted["body"]["status"] == "completed"
+    assert posted["body"]["results"]["1"]["firstName"] == "LILIA"
+    assert posted["body"]["results"]["2"]["antecedentes"] == []
+
+
+def test_resolve_step_params_reads_prior_results() -> None:
+    params = smart_batch_module.resolve_step_params(
+        {
+            "parameterDefaults": {
+                "documentType": "{{steps.1.data.propietarios.0.documentType}}",
+                "documentNumber": "{{steps.1.data.propietarios.0.documentNumber}}",
+            },
+            "dependencies": [
+                {"field": "documentType"},
+                {"field": "documentNumber"},
+            ],
+        },
+        {"plate": "ABC123"},
+        {"1": {"propietarios": [{"documentType": "CC", "documentNumber": "1032386359"}]}},
+    )
+
+    assert params == {"documentType": "CC", "documentNumber": "1032386359"}
