@@ -3751,6 +3751,33 @@
     ]
   },
   {
+    "code": "mexico_api_siged_certificado",
+    "name": "Mexico - SIGED Certificate",
+    "url": "/v2/mx/siged/certificado",
+    "method": "GET",
+    "country": "Mexico",
+    "dependencies": [
+      {
+        "field": "folio",
+        "type": "String",
+        "required": true,
+        "description": "Folio printed on the electronic certificate."
+      },
+      {
+        "field": "fullName",
+        "type": "String",
+        "required": false,
+        "description": "Expected full name. Mismatch returns 409 name_mismatch."
+      },
+      {
+        "field": "curp",
+        "type": "String",
+        "required": false,
+        "description": "CURP used to compare the official name with the certificate."
+      }
+    ]
+  },
+  {
     "code": "mexico_api_ine_validate",
     "name": "Mexico - INE Validation",
     "url": "/v2/mx/ine",
