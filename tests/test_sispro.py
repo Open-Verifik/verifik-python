@@ -460,6 +460,38 @@ def test_sispro_worker_records_partial_when_later_step_fails(monkeypatch) -> Non
     assert posted["body"]["errors"][0]["step"] == 2
 
 
+def test_sispro_worker_continues_after_an_earlier_step_fails(monkeypatch) -> None:
+    posted = {}
+    paths: list[str] = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        paths.append(request.url.path)
+        if request.url.path == "/v2/co/cedula":
+            return httpx.Response(404, json={"code": "NotFound", "message": "Record not found."})
+        if request.url.path == "/v2/co/procuraduria/antecedentes":
+            return httpx.Response(
+                200,
+                json={"data": {"antecedentes": []}, "signature": "b"},
+            )
+        if request.method == "POST" and request.url.path.endswith("/attempts"):
+            posted["body"] = json.loads(request.content)
+            return httpx.Response(200, json={"data": {}})
+        raise AssertionError(f"unexpected {request.method} {request.url.path}")
+
+    monkeypatch.setattr(
+        smart_batch_module,
+        "get_verifik_client",
+        lambda: httpx.Client(transport=httpx.MockTransport(handler), base_url="http://node.test"),
+    )
+
+    sispro_queue_worker.execute_and_record("Bearer test-jwt", TWO_STEP_CLAIM)
+
+    assert paths[:2] == ["/v2/co/cedula", "/v2/co/procuraduria/antecedentes"]
+    assert posted["body"]["status"] == "partial"
+    assert posted["body"]["errors"][0]["step"] == 1
+    assert posted["body"]["results"]["2"]["antecedentes"] == []
+
+
 def test_sispro_worker_skips_claimed_step_that_already_has_results(monkeypatch) -> None:
     posted = {}
     paths: list[str] = []
@@ -513,3 +545,21 @@ def test_resolve_step_params_reads_prior_results() -> None:
     )
 
     assert params == {"documentType": "CC", "documentNumber": "1032386359"}
+
+
+def test_resolve_step_params_keeps_only_the_selected_query_option() -> None:
+    params = smart_batch_module.resolve_step_params(
+        {
+            "queryMode": "2",
+            "parameterDefaults": {"fullName": "{{results.1.fullName}}"},
+            "dependencies": [
+                {"field": "fullName", "dependencyGroup": "2"},
+                {"field": "documentType", "dependencyGroup": "1"},
+                {"field": "documentNumber", "dependencyGroup": "1"},
+            ],
+        },
+        {"documentType": "CC", "documentNumber": "1032386359"},
+        {"1": {"fullName": "ANA PEREZ"}},
+    )
+
+    assert params == {"fullName": "ANA PEREZ"}

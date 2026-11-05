@@ -132,6 +132,24 @@ def _resolve_template(value, context):
     return _get_by_path(context, match.group(1))
 
 
+def _group_of(dependency: dict) -> str:
+    group = dependency.get("dependencyGroup")
+    return "" if group is None else str(group).strip()
+
+
+def _active_dependencies(step: dict) -> list:
+    """Keep the query option the flow selected. The other option is not sent."""
+    dependencies = step.get("dependencies") or []
+    mode = str(step.get("queryMode") or "").strip()
+    if not mode or not any(_group_of(dependency) == mode for dependency in dependencies):
+        return dependencies
+    return [
+        dependency
+        for dependency in dependencies
+        if not _group_of(dependency) or _group_of(dependency) == mode
+    ]
+
+
 def resolve_step_params(step: dict, input_data: dict, results: dict) -> dict:
     context = {
         "input": input_data or {},
@@ -140,13 +158,14 @@ def resolve_step_params(step: dict, input_data: dict, results: dict) -> dict:
         "steps": {str(key): _wrap_result(payload) for key, payload in (results or {}).items()},
     }
     params: dict = {}
+    active = _active_dependencies(step)
 
-    for dependency in step.get("dependencies") or []:
+    for dependency in active:
         field = dependency.get("field")
         if field and dependency.get("default") is not None:
             params[field] = dependency["default"]
 
-    for dependency in step.get("dependencies") or []:
+    for dependency in active:
         field = dependency.get("field")
         if not field:
             continue
@@ -169,6 +188,13 @@ def resolve_step_params(step: dict, input_data: dict, results: dict) -> dict:
         )
         if not _is_empty(raw):
             params[api_param] = raw
+
+    mode = str(step.get("queryMode") or "").strip()
+    if mode and any(_group_of(dependency) == mode for dependency in (step.get("dependencies") or [])):
+        for dependency in step.get("dependencies") or []:
+            group = _group_of(dependency)
+            if group and group != mode:
+                params.pop(dependency.get("field"), None)
 
     cleaned = {}
     for key, value in params.items():
@@ -217,23 +243,6 @@ def invoke_claimed(claimed: dict, authorization: str) -> tuple[int, dict]:
     )
 
 
-def _step_failure(results: dict, sequence: int, status: int, body: dict) -> dict:
-    code = body.get("code") if isinstance(body, dict) else None
-    message = body.get("message") if isinstance(body, dict) else None
-    error_code = code or "Error"
-    error_message = message or ""
-    attempt = {
-        "status": "partial" if results else "failed",
-        "statusCode": status,
-        "code": error_code,
-        "message": error_message,
-        "errors": [{"step": sequence, "code": error_code, "message": error_message}],
-    }
-    if results:
-        attempt["results"] = results
-    return attempt
-
-
 def _has_step_result(results: dict, sequence: int) -> bool:
     if not results:
         return False
@@ -249,10 +258,21 @@ def _seed_results(claimed: dict) -> dict:
     return seeded
 
 
+def _record_step_error(errors: list, sequence: int, status: int, body: dict) -> tuple[int, str, str]:
+    code = body.get("code") if isinstance(body, dict) else None
+    message = body.get("message") if isinstance(body, dict) else None
+    error_code = code or "Error"
+    error_message = message or ""
+    errors.append({"step": sequence, "code": error_code, "message": error_message})
+    return status, error_code, error_message
+
+
 def invoke_claimed_steps(claimed: dict, authorization: str) -> dict:
     steps = claimed.get("steps") or []
     raw_input = claimed.get("rowInput") or claimed.get("inputData") or {}
     results = _seed_results(claimed)
+    errors: list = []
+    last_failure: tuple[int, str, str] | None = None
 
     for index, step in enumerate(steps):
         sequence = int(step.get("sequence") or index + 1)
@@ -263,32 +283,44 @@ def invoke_claimed_steps(claimed: dict, authorization: str) -> dict:
         if _has_step_result(results, sequence):
             continue
 
-        if results:
+        if results or index:
             params = resolve_step_params(step, raw_input, results)
-        elif index == 0:
-            params = claimed.get("inputData") or {}
         else:
-            params = resolve_step_params(step, raw_input, results)
+            params = claimed.get("inputData") or {}
 
         try:
             method = str(step.get("method") or "GET").upper()
             status, body = invoke_path(path, method, params, authorization)
         except ApiError as exception:
             handled = error_handler(exception)
-            return _step_failure(
-                results,
+            last_failure = _record_step_error(
+                errors,
                 sequence,
                 handled.status,
                 {"code": handled.code, "message": handled.message},
             )
+            continue
 
         if status == 200:
             results[str(sequence)] = body.get("data", body)
             continue
 
-        return _step_failure(results, sequence, status, body)
+        last_failure = _record_step_error(errors, sequence, status, body)
 
-    return {"status": "completed", "statusCode": 200, "results": results}
+    if not errors:
+        return {"status": "completed", "statusCode": 200, "results": results}
+
+    status_code, code, message = last_failure or (500, "Error", "")
+    attempt = {
+        "status": "partial" if results else "failed",
+        "statusCode": status_code,
+        "code": code,
+        "message": message,
+        "errors": errors,
+    }
+    if results:
+        attempt["results"] = results
+    return attempt
 
 
 def claim_next_hmac() -> dict | None:
